@@ -1,9 +1,9 @@
 ---
 version: 2
 jobs:
-  node-latest: &test
+  run-tests: &test
     docker:
-      - image: salesforce/salesforcedx:7.71.0-full
+      - image: node:latest
     working_directory: ~/cli
     steps:
       - checkout
@@ -27,9 +27,7 @@ workflows:
   version: 2
   "sfdx-executor":
     jobs:
-      - node-latest
-      - node-8
-      - node-10
+      - run-tests
       - cache:
           filters:
             tags:
