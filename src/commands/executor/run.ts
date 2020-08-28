@@ -1,5 +1,5 @@
 import { flags, SfdxCommand } from '@salesforce/command';
-import { Messages, SfdxError, fs } from '@salesforce/core';
+import { fs, Messages, SfdxError } from '@salesforce/core';
 import { AnyJson } from '@salesforce/ts-types';
 import { exec } from 'child_process';
 
@@ -51,7 +51,7 @@ export default class Executor extends SfdxCommand {
         this.ux.log(`Executing ${command.label}...`);
         let errorMessage: string;
         try {
-            for (let task of command.tasks) {
+            for (const task of command.tasks) {
                 await this.executeSfdxTask(task);
             }
         } catch (error) {

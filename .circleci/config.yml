@@ -47,6 +47,8 @@ jobs:
             - /usr/local/share/.cache/yarn
             - /usr/local/share/.config/yarn
 
+# TODO Publish to NPM on push to master...
+
 workflows:
   version: 2
   "sfdx-executor":

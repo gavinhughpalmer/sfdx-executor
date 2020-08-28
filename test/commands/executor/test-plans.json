@@ -1,0 +1,54 @@
+{
+    "errorWithoutPropagating": {
+        "label": "Error without Propagating",
+        "description": "This test will execute an SFDX command which does not exist, expecting the error not to propagate",
+        "tasks": [
+            "this:is:not:a:command"
+        ],
+        "propagateErrors": false
+    },
+    "errorWithPropagating": {
+        "label": "Error with Propagating",
+        "description": "This test will execute an SFDX command which does not exist, expecting the error to propagate",
+        "tasks": [
+            "this:is:not:a:command"
+        ],
+        "propagateErrors": true
+    },
+    "errorWithFinally": {
+        "label": "Error with Finnally Command",
+        "description": "This test will throw an error, and then execute the finally command",
+        "tasks": [
+            "this:is:not:a:command"
+        ],
+        "propagateErrors": false,
+        "finally": "force -h"
+    },
+    "finallyWithoutError": {
+        "label": "Finally without Error",
+        "description": "This test will execute a command without failure, then execute the finally command once everything has completed",
+        "tasks": [
+            "force -h"
+        ],
+        "propagateErrors": false,
+        "finally": "force:org -h"
+    },
+    "errorWithErrorHandler": {
+        "label": "Error with On Error Command",
+        "description": "This test will execute an on error command once an error is seen in the execution",
+        "tasks": [
+            "this:is:not:a:command"
+        ],
+        "propagateErrors": false,
+        "onError": "force -h"
+    },
+    "successfulCommand": {
+        "label": "Successful Command",
+        "description": "This test will execute an successful command",
+        "tasks": [
+            "force -h"
+        ],
+        "propagateErrors": false,
+        "onError": "force -h"
+    }
+}
