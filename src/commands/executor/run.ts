@@ -32,7 +32,7 @@ export default class Executor extends SfdxCommand {
 
     protected static requiresUsername = false;
     protected static supportsDevhubUsername = false;
-    protected static requiresProject = true;
+    protected static requiresProject = false;
 
     public async run(): Promise<AnyJson> {
         const planFileExists = await fs.fileExists(this.flags.planfile);
