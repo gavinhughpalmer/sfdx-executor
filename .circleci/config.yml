@@ -3,7 +3,7 @@ version: 2
 jobs:
   node-latest: &test
     docker:
-      - image: node:latest
+      - image: salesforce/salesforcedx:7.71.0-full
     working_directory: ~/cli
     steps:
       - checkout
@@ -20,32 +20,6 @@ jobs:
       - run:
           name: Testing
           command: yarn test
-      - run:
-          name: Submitting code coverage to codecov
-          command: |
-            ./node_modules/.bin/nyc report --reporter text-lcov > coverage.lcov
-            curl -s https://codecov.io/bash | bash
-  node-8:
-    <<: *test
-    docker:
-      - image: node:8
-  node-10:
-    <<: *test
-    docker:
-      - image: node:10
-  cache:
-    <<: *test
-    steps:
-      - checkout
-      - run:
-          name: Install dependencies
-          command: yarn
-      - save_cache:
-          key: v1-npm-{{checksum ".circleci/config.yml"}}-{{checksum "yarn.lock"}}
-          paths:
-            - ~/cli/node_modules
-            - /usr/local/share/.cache/yarn
-            - /usr/local/share/.config/yarn
 
 # TODO Publish to NPM on push to master...
 
