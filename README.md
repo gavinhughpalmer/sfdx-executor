@@ -5,9 +5,6 @@ This plugin is to execure series of sfdx commands simplifiying tasks that requir
 
 [![Version](https://img.shields.io/npm/v/sfdx-executor.svg)](https://npmjs.org/package/sfdx-executor)
 [![CircleCI](https://circleci.com/gh/gavinhughpalmer/sfdx-executor/tree/master.svg?style=shield)](https://circleci.com/gh/gavinhughpalmer/sfdx-executor/tree/master)
-[![Appveyor CI](https://ci.appveyor.com/api/projects/status/github/gavinhughpalmer/sfdx-executor?branch=master&svg=true)](https://ci.appveyor.com/project/heroku/sfdx-executor/branch/master)
-[![Codecov](https://codecov.io/gh/gavinhughpalmer/sfdx-executor/branch/master/graph/badge.svg)](https://codecov.io/gh/gavinhughpalmer/sfdx-executor)
-[![Greenkeeper](https://badges.greenkeeper.io/gavinhughpalmer/sfdx-executor.svg)](https://greenkeeper.io/)
 [![Known Vulnerabilities](https://snyk.io/test/github/gavinhughpalmer/sfdx-executor/badge.svg)](https://snyk.io/test/github/gavinhughpalmer/sfdx-executor)
 [![Downloads/week](https://img.shields.io/npm/dw/sfdx-executor.svg)](https://npmjs.org/package/sfdx-executor)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -38,7 +35,7 @@ This command allows a series of SFDX commands to be scripted without the need fo
 
 ```
 USAGE
-  $ sfdx executor:run -p <string> -c <string> [--json] [--loglevel 
+  $ sfdx executor:run -p <string> -c <string> [--json] [--loglevel
   trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]
 
 OPTIONS
