@@ -1,0 +1,24 @@
+{
+    "createScratch": {
+        "label": "Create Scratch",
+        "description": "This command will run all the nessisary commands to setup a scratch org",
+        "tasks": [
+            "force:org:create --definitionfile config/project-scratch-def.json --setalias $1 --durationdays 30 --setdefaultusername",
+            "force:source:push --targetusername $1 --forceoverwrite",
+            "force:user:permset:assign --permsetname Test --targetusername $1",
+            "force:apex:execute --apexcodefile scripts/PostDeployment.cls --targetusername $1"
+        ],
+        "propagateErrors": false
+    },
+    "runTests": {
+        "label": "Compile and Execute Tests",
+        "description": "This command create a scratch org and execute apex tests, for usage in CI processes",
+        "tasks": [
+            "force:org:create --definitionfile config/project-scratch-def.json --setalias TestRunner --durationdays 1",
+            "force:source:push --targetusername TestRunner --forceoverwrite",
+            "force:apex:test:run --testlevel RunLocalTests --outputdir test-results --resultformat tap --targetusername TestRunner --codecoverage --wait 10",
+        ],
+        "propagateErrors": true,
+        "finally": "force:org:delete --noprompt --targetusername TestRunner"
+    }
+}
