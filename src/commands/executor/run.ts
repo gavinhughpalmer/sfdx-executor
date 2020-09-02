@@ -1,6 +1,5 @@
 import { flags, SfdxCommand } from '@salesforce/command';
 import { fs, Messages, SfdxError } from '@salesforce/core';
-import { AnyJson } from '@salesforce/ts-types';
 import { exec } from 'child_process';
 
 // Initialize Messages with the current plugin directory
@@ -97,13 +96,13 @@ export default class Executor extends SfdxCommand {
 
     private replaceArguments(task: string): string {
         if (this.flags.arguments) {
-            for (const index in arguments) {
+            Array.from(arguments).forEach((argument: string, index: number) => {
                 const replacement = `$\{${index}}`;
                 if (task.includes(replacement)) {
                     // using in place of replace all as this doesn't seem to exist in this version of node
-                    task = task.split(replacement).join(arguments[index]);
+                    task = task.split(replacement).join(argument);
                 }
-            }
+            });
         }
         return task;
     }
