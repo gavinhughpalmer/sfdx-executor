@@ -55,14 +55,14 @@ describe('executor:run', () => {
         expect(ctx.stderr).to.contain('ERROR running executor:run');
     });
 
-    const firstArgument = 'firstArgument';
-    const secondArgument = 'secondArgument';
+    const firstArgument = 'firstArg';
+    const secondArgument = 'secondArg';
     test.stdout().command([
         'executor:run',
         '--planfile', plansPath,
         '--command', 'planWithMultipleArguments',
         '--arguments', `${firstArgument},${secondArgument}`
-    ]).it('runs Plan With Arguments', ctx => {
+    ]).it('runs Plan With Multiple Arguments', ctx => {
         expect(ctx.stdout).to.contain(firstArgument);
         expect(ctx.stdout).to.contain(secondArgument);
     });
