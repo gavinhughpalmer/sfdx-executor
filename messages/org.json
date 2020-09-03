@@ -5,5 +5,6 @@
   "argumentsFlagDescription": "An array of the elements that you wish to pass into the command being executed, the values will then be entered in by their index of the array into the number (eg $1) within the tasks in the plan file",
   "planFileMissingError": "The plan file cannot be found, please check the path being provided",
   "commandPlanMissingError": "The command specified cannot be found in the plan file",
-  "noTasksDefinedError": "There are no tasks defined, please specify to execute"
+  "noTasksDefinedError": "There are no tasks defined, please specify to execute",
+  "noArgumentsProvidedError": "The command provided requires arguments to be passed in, please ensure these are entered using the -a flag"
 }

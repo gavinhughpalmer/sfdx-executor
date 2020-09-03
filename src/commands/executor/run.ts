@@ -95,14 +95,17 @@ export default class Executor extends SfdxCommand {
     }
 
     private replaceArguments(task: string): string {
-        if (this.flags.arguments) {
-            Array.from(arguments).forEach((argument: string, index: number) => {
+        const inputArguments = this.flags.arguments;
+        if (inputArguments) {
+            Array.from(inputArguments).forEach((argument: string, index: number) => {
                 const replacement = `$\{${index}}`;
                 if (task.includes(replacement)) {
                     // using in place of replace all as this doesn't seem to exist in this version of node
                     task = task.split(replacement).join(argument);
                 }
             });
+        } else {
+            throw new SfdxError(messages.getMessage('noArgumentsProvidedError'));
         }
         return task;
     }
