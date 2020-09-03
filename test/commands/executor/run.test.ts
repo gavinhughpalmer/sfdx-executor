@@ -37,14 +37,15 @@ describe('executor:run', () => {
         expect(ctx.stdout).to.contain('sfdx force [--json]');
     });
 
-    const argumentToReplace = '-h';
-    test.stdout().command([
+    const argumentToReplace = 'randomArgument';
+    test.stdout().stderr().command([
         'executor:run',
         '--planfile', plansPath,
         '--command', 'planWithArguments',
         '--arguments', argumentToReplace
     ]).it('runs Plan With Arguments', ctx => {
         expect(ctx.stdout).to.contain(argumentToReplace);
+        expect(ctx.stderr).to.contain('ERROR running executor:run');
     });
 
     test.stderr().command([
