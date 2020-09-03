@@ -37,7 +37,7 @@ describe('executor:run', () => {
         expect(ctx.stdout).to.contain('sfdx force [--json]');
     });
 
-    const argumentToReplace = '"-h"';
+    const argumentToReplace = '-h';
     test.stdout().command([
         'executor:run',
         '--planfile', plansPath,
