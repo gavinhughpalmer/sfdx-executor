@@ -33,5 +33,21 @@
         ],
         "propagateErrors": false,
         "onError": "force -h"
+    },
+    "planWithArguments": {
+        "label": "Plan with Arguments",
+        "description": "This plan will contain arguments to be input which then get stripped out prior to being executed",
+        "tasks": [
+            "force ${0}"
+        ],
+        "propagateErrors": true
+    },
+    "planWithMultipleArguments": {
+        "label": "Plan with Multiple Arguments",
+        "description": "This plan will contain multiple arguments to be input which then get stripped out prior to being executed",
+        "tasks": [
+            "force ${0} ${1}"
+        ],
+        "propagateErrors": false
     }
 }

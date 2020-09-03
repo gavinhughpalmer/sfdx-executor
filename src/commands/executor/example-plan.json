@@ -3,10 +3,10 @@
         "label": "Create Scratch",
         "description": "This command will run all the nessisary commands to setup a scratch org",
         "tasks": [
-            "force:org:create --definitionfile config/project-scratch-def.json --setalias $1 --durationdays 30 --setdefaultusername",
-            "force:source:push --targetusername $1 --forceoverwrite",
-            "force:user:permset:assign --permsetname Test --targetusername $1",
-            "force:apex:execute --apexcodefile scripts/PostDeployment.cls --targetusername $1"
+            "force:org:create --definitionfile config/project-scratch-def.json --setalias ${1} --durationdays 30 --setdefaultusername",
+            "force:source:push --targetusername ${1} --forceoverwrite",
+            "force:user:permset:assign --permsetname Test --targetusername ${1}",
+            "force:apex:execute --apexcodefile scripts/PostDeployment.cls --targetusername ${1}"
         ],
         "propagateErrors": false
     },

@@ -36,4 +36,35 @@ describe('executor:run', () => {
     ]).it('runs Successful Command', ctx => {
         expect(ctx.stdout).to.contain('sfdx force [--json]');
     });
+
+    const argumentToReplace = 'randomArgument';
+    test.stdout().stderr().command([
+        'executor:run',
+        '--planfile', plansPath,
+        '--command', 'planWithArguments',
+        '--arguments', argumentToReplace
+    ]).it('runs Plan With Arguments', ctx => {
+        expect(ctx.stdout).to.contain(argumentToReplace);
+        expect(ctx.stderr).to.contain('ERROR running executor:run');
+    });
+
+    test.stderr().command([
+        'executor:run',
+        '--planfile', plansPath,
+        '--command', 'planWithArguments'
+    ]).it('runs Plan without Arguments', ctx => {
+        expect(ctx.stderr).to.contain('ERROR running executor:run');
+    });
+
+    const firstArgument = 'firstArg';
+    const secondArgument = 'secondArg';
+    test.stdout().command([
+        'executor:run',
+        '--planfile', plansPath,
+        '--command', 'planWithMultipleArguments',
+        '--arguments', `${firstArgument},${secondArgument}`
+    ]).it('runs Plan With Multiple Arguments', ctx => {
+        expect(ctx.stdout).to.contain(firstArgument);
+        expect(ctx.stdout).to.contain(secondArgument);
+    });
 });
