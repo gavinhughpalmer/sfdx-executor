@@ -40,18 +40,18 @@ export default class Executor extends SfdxCommand {
         let errorMessage: string;
         try {
             for (const task of command.tasks) {
-                await this.executeSfdxTask(task);
+                await this.executeTask(task);
             }
         } catch (error) {
             errorMessage = error.message;
             if (command.onError) {
                 this.ux.log('Running On Error Task...');
-                await this.executeSfdxTask(command.onError);
+                await this.executeTask(command.onError);
             }
         }
         if (command.finally) {
             this.ux.log('Running Finally Task...');
-            await this.executeSfdxTask(command.finally);
+            await this.executeTask(command.finally);
         }
         if (errorMessage && command.propagateErrors) {
             throw new SfdxError(errorMessage);
@@ -59,6 +59,7 @@ export default class Executor extends SfdxCommand {
         // TODO could also include logic to loop over certain variables as they are passed into the plugin (eg with permission sets so we can just list out a bunch and pass them in there)
         // TODO Add in custom commands
         // TODO document how to setup the plan files
+        // TODO could add parallel processing steps to increase efficiency eg perm set assign and apex anon scripts to run side by side (will have to test and see if this makes a difference with the salesforce API's)
     }
 
     private async getCommand(): Promise<Command> {
@@ -78,11 +79,34 @@ export default class Executor extends SfdxCommand {
         return command;
     }
 
-    private executeSfdxTask(task: string): Promise<void> {
+    private executeTask(task: Task): Promise<void | void[]> {
+        switch (task.type) {
+            case 'parallel':
+                // TODO validate this field is populated for parallel marked data structures
+                return this.resolveParallelTasks(task.parallelTasks);
+            case 'sfdx':
+                return this.resolveSfdxTask(task.command);
+            case 'fs':
+                return this.resolveFsTask(task.command);
+            default:
+                // TODO throw an error here
+                break;
+        }
+    }
+
+    private resolveParallelTasks(parallelTasks: Task[]): Promise<void[]> {
+        const taskList = [];
+        for (const parallelTask of parallelTasks) {
+            taskList.push(this.executeTask(parallelTask));
+        }
+        return Promise.all(taskList);
+    }
+
+    private resolveSfdxTask(command: string): Promise<void> {
         return new Promise((resolve, reject) => {
-            task = this.replaceArguments(task);
-            this.ux.log(`Executing ${task}...`);
-            exec(`sfdx ${task}`, (error, stdout, stderr) => {
+            command = this.replaceArguments(command);
+            this.ux.log(`Executing ${command}...`);
+            exec(`sfdx ${command}`, (error, stdout, stderr) => {
                 if (error) {
                     reject(error);
                 }
@@ -93,6 +117,30 @@ export default class Executor extends SfdxCommand {
                 resolve();
             });
         });
+    }
+
+    private async resolveFsTask(command: string): Promise<void> {
+        // TODO Placeholder not yet supported
+        const verbs = command.split(' ');
+        switch (verbs[0]) {
+            case 'replace':
+
+                break;
+            case 'move':
+
+                break;
+            case 'delete':
+
+                break;
+            case 'append':
+
+                break;
+            case 'write':
+
+                break;
+            default:
+                break;
+        }
     }
 
     private replaceArguments(task: string): string {
@@ -117,9 +165,15 @@ export default class Executor extends SfdxCommand {
 }
 
 interface Command {
-    tasks: string[];
+    tasks: Task[];
     label: string;
-    onError: string;
-    finally: string;
+    onError: Task;
+    finally: Task;
     propagateErrors: boolean;
+}
+
+interface Task {
+    type: string;
+    command: string;
+    parallelTasks: Task[];
 }

@@ -3,10 +3,17 @@
         "label": "Create Scratch",
         "description": "This command will run all the nessisary commands to setup a scratch org",
         "tasks": [
-            "force:org:create --definitionfile config/project-scratch-def.json --setalias ${1} --durationdays 30 --setdefaultusername",
-            "force:source:push --targetusername ${1} --forceoverwrite",
-            "force:user:permset:assign --permsetname Test --targetusername ${1}",
-            "force:apex:execute --apexcodefile scripts/PostDeployment.cls --targetusername ${1}"
+            {"type": "parallel", "parallelTasks": [
+                {"type": "fs", "task": "replace 'term' with 'otherTerm' in '**/*flow-meta.xml'"},
+                {"type": "fs", "task": "move 'file' to 'newLocation'"},
+                {"type": "fs", "task": "delete 'term'"}
+            ]},
+            {"type": "fs", "task": "append 'contents' to 'file'"},
+            {"type": "fs", "task": "write 'contents' to 'file'", "runIf": "${0}='my string'"},
+            {"type": "sfdx", "task": "force:org:create --definitionfile config/project-scratch-def.json --setalias ${1} --durationdays 30 --setdefaultusername"},
+            {"type": "sfdx", "task": "force:source:push --targetusername ${1} --forceoverwrite"},
+            {"type": "sfdx", "task": "force:user:permset:assign --permsetname Test --targetusername ${1}"},
+            {"type": "sfdx", "task": "force:apex:execute --apexcodefile scripts/PostDeployment.cls --targetusername ${1}"}
         ],
         "propagateErrors": false
     },
