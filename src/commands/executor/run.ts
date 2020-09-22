@@ -59,6 +59,7 @@ export default class Executor extends SfdxCommand {
         // TODO could also include logic to loop over certain variables as they are passed into the plugin (eg with permission sets so we can just list out a bunch and pass them in there)
         // TODO Add in custom commands
         // TODO document how to setup the plan files
+        // TODO Add restart option, by writing to a file that stores where it has got to, eg last failure, then store in a .file in the path
     }
 
     private async getCommand(): Promise<Command> {
