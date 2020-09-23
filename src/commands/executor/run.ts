@@ -69,6 +69,7 @@ export default class Executor extends SfdxCommand {
         // TODO could add parallel processing steps to increase efficiency eg perm set assign and apex anon scripts to run side by side (will have to test and see if this makes a difference with the salesforce API's)
     }
 
+    // TODO Could resume from using an input parameter rather than a file, this puts the flexibility in the users hands
     private async getStartingTask(): Promise<number> {
         const errorFile = await fs.readJson('.sfdx-executor-error.json');
         return errorFile['lineNumber'];
