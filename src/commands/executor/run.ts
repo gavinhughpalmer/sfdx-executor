@@ -39,11 +39,17 @@ export default class Executor extends SfdxCommand {
         this.ux.log(`Executing ${command.label}...`);
         let errorMessage: string;
         try {
-            for (const task of command.tasks) {
+            const startingNumber = await this.getStartingTask();
+            for (let i = startingNumber; i++; i < command.tasks.length) {
+                const task = command.tasks[i];
+                task.index = i;
                 await this.executeTask(task);
             }
         } catch (error) {
             errorMessage = error.message;
+            if (error instanceof TaskError) {
+                this.writeError((error as TaskError).lineNumber);
+            }
             if (command.onError) {
                 this.ux.log('Running On Error Task...');
                 await this.executeTask(command.onError);
@@ -56,10 +62,28 @@ export default class Executor extends SfdxCommand {
         if (errorMessage && command.propagateErrors) {
             throw new SfdxError(errorMessage);
         }
+        await this.deleteError();
         // TODO could also include logic to loop over certain variables as they are passed into the plugin (eg with permission sets so we can just list out a bunch and pass them in there)
         // TODO Add in custom commands
         // TODO document how to setup the plan files
         // TODO could add parallel processing steps to increase efficiency eg perm set assign and apex anon scripts to run side by side (will have to test and see if this makes a difference with the salesforce API's)
+    }
+
+    private async getStartingTask(): Promise<number> {
+        const errorFile = await fs.readJson('.sfdx-executor-error.json');
+        return errorFile['lineNumber'];
+    }
+
+    private async writeError(lineNumber: number): Promise<void> {
+        const errorFile = {
+            __comment: "This file is used for tracking errors in the command running process, please do not commit to source control",
+            lineNumber: lineNumber
+        };
+        fs.writeJson('.sfdx-executor-error.json', errorFile);
+    }
+
+    private async deleteError(): Promise<void> {
+        fs.unlink('.sfdx-executor-error.json');
     }
 
     private async getCommand(): Promise<Command> {
@@ -85,7 +109,7 @@ export default class Executor extends SfdxCommand {
                 // TODO validate this field is populated for parallel marked data structures
                 return this.resolveParallelTasks(task.parallelTasks);
             case 'sfdx':
-                return this.resolveSfdxTask(task.command);
+                return this.resolveSfdxTask(task);
             case 'fs':
                 return this.resolveFsTask(task.command);
             default:
@@ -102,16 +126,16 @@ export default class Executor extends SfdxCommand {
         return Promise.all(taskList);
     }
 
-    private resolveSfdxTask(command: string): Promise<void> {
+    private resolveSfdxTask(task: Task): Promise<void> {
         return new Promise((resolve, reject) => {
-            command = this.replaceArguments(command);
+            const command = this.replaceArguments(task.command);
             this.ux.log(`Executing ${command}...`);
             exec(`sfdx ${command}`, (error, stdout, stderr) => {
                 if (error) {
                     reject(error);
                 }
                 if (stderr) {
-                    reject(new Error(stderr));
+                    reject(new TaskError(stderr, task.index));
                 }
                 this.ux.log(stdout);
                 resolve();
@@ -176,4 +200,13 @@ interface Task {
     type: string;
     command: string;
     parallelTasks: Task[];
+    index: number;
+}
+
+class TaskError extends Error {
+    public lineNumber: number;
+    constructor(errorMessage: string, lineNumber: number) {
+        super(errorMessage);
+        this.lineNumber = lineNumber;
+    }
 }
