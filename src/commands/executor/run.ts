@@ -1,6 +1,6 @@
 import { flags, SfdxCommand } from '@salesforce/command';
 import { fs, Messages, SfdxError } from '@salesforce/core';
-import { exec } from 'child_process';
+import { spawn } from 'child_process';
 
 // Initialize Messages with the current plugin directory
 Messages.importMessagesDirectory(__dirname);
@@ -40,15 +40,15 @@ export default class Executor extends SfdxCommand {
         this.ux.log(`Executing ${command.label}...`);
         let errorMessage: string;
         try {
-            for (let i = this.flags.resume; i++; i < command.tasks.length) {
+            for (let i = this.flags.resume; i < command.tasks.length; i++) {
                 const task = command.tasks[i];
                 task.index = i;
                 await this.executeTask(task);
             }
         } catch (error) {
             errorMessage = error.message;
-            if (error instanceof TaskError) {
-                this.ux.log(`An error has occured, you can rerun with the parameter "--resume ${error.lineNumber}`);
+            if (error instanceof TaskExecutionError) {
+                this.ux.log(`An error has occured, you can rerun with the parameter "--resume ${error.lineNumber}"`);
             }
             if (command.onError) {
                 this.ux.log('Running On Error Task...');
@@ -91,20 +91,22 @@ export default class Executor extends SfdxCommand {
         switch (task.type) {
             case 'parallel':
                 // TODO validate this field is populated for parallel marked data structures
-                return this.resolveParallelTasks(task.parallelTasks);
+                return this.resolveParallelTasks(task);
             case 'sfdx':
                 return this.resolveSfdxTask(task);
             case 'fs':
-                return this.resolveFsTask(task.command);
+                return this.resolveFsTask(task);
             default:
-                // TODO throw an error here
+                throw new NotYetSupportedError(`The command type of ${task.type} is not supported`);
                 break;
         }
     }
 
-    private resolveParallelTasks(parallelTasks: Task[]): Promise<void[]> {
+    private resolveParallelTasks(task: Task): Promise<void[]> {
         const taskList = [];
-        for (const parallelTask of parallelTasks) {
+        for (const parallelTask of task.parallelTasks) {
+            // assign the index of the parent to ensure if an error is returned it starts the whole parallel set of tasks again
+            parallelTask.index = task.index;
             taskList.push(this.executeTask(parallelTask));
         }
         return Promise.all(taskList);
@@ -113,43 +115,42 @@ export default class Executor extends SfdxCommand {
     private resolveSfdxTask(task: Task): Promise<void> {
         return new Promise((resolve, reject) => {
             const command = this.replaceArguments(task.command);
-            this.ux.log(`Executing ${command}...`);
-            exec(`sfdx ${command}`, (error, stdout, stderr) => {
-                if (error) {
-                    reject(error);
-                }
-                if (stderr) {
-                    reject(new TaskError(stderr, task.index));
-                }
-                this.ux.log(stdout);
-                resolve();
+            this.ux.log(`Executing 'sfdx ${command}'...`);
+            const spawnedCommand = spawn('sfdx', command.split(' '), {
+                stdio: "inherit"
+            });
+            spawnedCommand.on("close", resolve);
+            spawnedCommand.on("error", error => {
+                reject(new TaskExecutionError(error.message, task.index));
             });
         });
     }
 
-    private async resolveFsTask(command: string): Promise<void> {
-        // TODO Placeholder not yet supported
-        const verbs = command.split(' ');
-        switch (verbs[0]) {
-            case 'replace':
-                const fileContents = await fs.readFile(verbs[5], 'utf8');
-                fileContents.replace(verbs[1], verbs[3]);
-                break;
-            case 'move':
-
-                break;
-            case 'delete':
-                await fs.unlink(verbs[1]);
-                break;
-            case 'append':
-                await fs.writeFile(verbs[3], verbs[1], {flag: 'a'});
-                break;
-            case 'write':
-                await fs.writeFile(verbs[3], verbs[1]);
-                break;
-            default:
-                break;
-        }
+    private async resolveFsTask(task: Task): Promise<void> {
+        throw new NotYetSupportedError('File system commands are not yet supported');
+        // const verbs = command.split(' ');
+        // switch (verbs[0]) {
+        //     case 'replace':
+        //         const fileContents = await fs.readFile(verbs[5], 'utf8');
+        //         fileContents.replace(verbs[1], verbs[3]);
+        //         await fs.writeFile(verbs[5], fileContents);
+        //         break;
+        //     case 'move':
+        //         fs.unlink
+        //         break;
+        //     case 'delete':
+        //         await fs.unlink(verbs[1]);
+        //         break;
+        //     case 'append':
+        //         await fs.writeFile(verbs[3], verbs[1], {flag: 'a'});
+        //         break;
+        //     case 'write':
+        //         await fs.writeFile(verbs[3], verbs[1]);
+        //         break;
+        //     default:
+        //         // TODO throw error
+        //         break;
+        // }
     }
 
     private replaceArguments(task: string): string {
@@ -188,10 +189,12 @@ interface Task {
     index: number;
 }
 
-class TaskError extends Error {
+class TaskExecutionError extends Error {
     public lineNumber: number;
     constructor(errorMessage: string, lineNumber: number) {
         super(errorMessage);
         this.lineNumber = lineNumber;
     }
 }
+
+class NotYetSupportedError extends Error {}
