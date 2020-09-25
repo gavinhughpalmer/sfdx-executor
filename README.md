@@ -4,7 +4,7 @@ sfdx-executor
 This plugin is to execure series of sfdx commands simplifiying tasks that require a number of commands to be executed
 
 [![Version](https://img.shields.io/npm/v/sfdx-executor.svg)](https://npmjs.org/package/sfdx-executor)
-[![CircleCI](https://circleci.com/gh/gavinhughpalmer/sfdx-executor/tree/master.svg?style=shield)](https://circleci.com/gh/gavinhughpalmer/sfdx-executor/tree/master)
+[![CircleCI](https://circleci.com/gh/gavinhughpalmer/sfdx-executor/tree/master.svg?style=svg)](https://circleci.com/gh/gavinhughpalmer/sfdx-executor/tree/master)
 [![Known Vulnerabilities](https://snyk.io/test/github/gavinhughpalmer/sfdx-executor/badge.svg)](https://snyk.io/test/github/gavinhughpalmer/sfdx-executor)
 [![Downloads/week](https://img.shields.io/npm/dw/sfdx-executor.svg)](https://npmjs.org/package/sfdx-executor)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
