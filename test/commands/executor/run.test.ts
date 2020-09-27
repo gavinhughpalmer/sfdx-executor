@@ -9,7 +9,7 @@ describe('executor:run', () => {
         '--planfile', plansPath,
         '--command', 'errorWithPropagating'
     ]).it('runs Error with Propagating', ctx => {
-        expect(ctx.stdout).to.contain('Executing this:is:not:a:command...');
+        expect(ctx.stdout).to.contain('force:alias:set');
         expect(ctx.stderr).to.contains('ERROR running executor:run');
     });
 
@@ -29,12 +29,13 @@ describe('executor:run', () => {
         expect(ctx.stdout).to.contain('Running On Error Task...');
     });
 
-    test.stdout().command([
+    test.stdout().stderr().command([
         'executor:run',
         '--planfile', plansPath,
         '--command', 'successfulCommand'
     ]).it('runs Successful Command', ctx => {
-        expect(ctx.stdout).to.contain('sfdx force [--json]');
+        expect(ctx.stdout).to.contain('sfdx force -h');
+        expect(ctx.stderr).to.equal('');
     });
 
     const argumentToReplace = 'randomArgument';

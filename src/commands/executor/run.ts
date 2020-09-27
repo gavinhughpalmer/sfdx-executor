@@ -1,6 +1,6 @@
 import { flags, SfdxCommand } from '@salesforce/command';
 import { fs, Messages, SfdxError } from '@salesforce/core';
-import { exec } from 'child_process';
+import { spawn } from 'child_process';
 
 // Initialize Messages with the current plugin directory
 Messages.importMessagesDirectory(__dirname);
@@ -26,7 +26,8 @@ export default class Executor extends SfdxCommand {
     protected static flagsConfig = {
         planfile: flags.string({ char: 'p', description: messages.getMessage('planFileFlagDescription'), required: true }),
         command: flags.string({ char: 'c', description: messages.getMessage('planCommandFlagDescription'), required: true }),
-        arguments: flags.array({ char: 'a', description: messages.getMessage('argumentsFlagDescription') })
+        arguments: flags.array({ char: 'a', description: messages.getMessage('argumentsFlagDescription') }),
+        resume: flags.number({ char: 'r', description: messages.getMessage('resumeFlagDescription'), default: 0})
     };
 
     protected static requiresUsername = false;
@@ -39,19 +40,24 @@ export default class Executor extends SfdxCommand {
         this.ux.log(`Executing ${command.label}...`);
         let errorMessage: string;
         try {
-            for (const task of command.tasks) {
-                await this.executeSfdxTask(task);
+            for (let i = this.flags.resume; i < command.tasks.length; i++) {
+                const task = command.tasks[i];
+                task.index = i;
+                await this.executeTask(task);
             }
         } catch (error) {
             errorMessage = error.message;
+            if (error instanceof TaskExecutionError) {
+                this.ux.log(`An error has occured, you can rerun with the parameter "--resume ${error.lineNumber}"`);
+            }
             if (command.onError) {
                 this.ux.log('Running On Error Task...');
-                await this.executeSfdxTask(command.onError);
+                await this.executeTask(command.onError);
             }
         }
         if (command.finally) {
             this.ux.log('Running Finally Task...');
-            await this.executeSfdxTask(command.finally);
+            await this.executeTask(command.finally);
         }
         if (errorMessage && command.propagateErrors) {
             throw new SfdxError(errorMessage);
@@ -59,7 +65,8 @@ export default class Executor extends SfdxCommand {
         // TODO could also include logic to loop over certain variables as they are passed into the plugin (eg with permission sets so we can just list out a bunch and pass them in there)
         // TODO Add in custom commands
         // TODO document how to setup the plan files
-        // TODO Add restart option, by writing to a file that stores where it has got to, eg last failure, then store in a .file in the path
+        // TODO could add parallel processing steps to increase efficiency eg perm set assign and apex anon scripts to run side by side (will have to test and see if this makes a difference with the salesforce API's)
+        // TODO Add conditionals to the commands
     }
 
     private async getCommand(): Promise<Command> {
@@ -79,21 +86,77 @@ export default class Executor extends SfdxCommand {
         return command;
     }
 
-    private executeSfdxTask(task: string): Promise<void> {
+    private executeTask(task: Task): Promise<void | void[]> {
+        // Could make this a map...
+        switch (task.type) {
+            case 'parallel':
+                // TODO validate this field is populated for parallel marked data structures
+                return this.resolveParallelTasks(task);
+            case 'sfdx':
+                return this.resolveSfdxTask(task);
+            case 'fs':
+                return this.resolveFsTask(task);
+            default:
+                throw new NotYetSupportedError(`The command type of ${task.type} is not supported`);
+                break;
+        }
+    }
+
+    private resolveParallelTasks(task: Task): Promise<void[]> {
+        const taskList = [];
+        for (const parallelTask of task.parallelTasks) {
+            // assign the index of the parent to ensure if an error is returned it starts the whole parallel set of tasks again
+            parallelTask.index = task.index;
+            taskList.push(this.executeTask(parallelTask));
+        }
+        return Promise.all(taskList);
+    }
+
+    private resolveSfdxTask(task: Task): Promise<void> {
         return new Promise((resolve, reject) => {
-            task = this.replaceArguments(task);
-            this.ux.log(`Executing ${task}...`);
-            exec(`sfdx ${task}`, (error, stdout, stderr) => {
-                if (error) {
-                    reject(error);
+            const command = this.replaceArguments(task.command);
+            this.ux.log(`Executing 'sfdx ${command}'...`);
+            const spawnedCommand = spawn('sfdx', command.split(' '), {
+                stdio: 'inherit'
+            });
+            spawnedCommand.on('close', code => {
+                if (code !== 0) {
+                    reject(new TaskExecutionError(`Command failed with error code ${code}`, task.index));
+                } else {
+                    resolve();
                 }
-                if (stderr) {
-                    reject(new Error(stderr));
-                }
-                this.ux.log(stdout);
-                resolve();
+            });
+            spawnedCommand.on('error', error => {
+                reject(new TaskExecutionError(error.message, task.index));
             });
         });
+    }
+
+    private async resolveFsTask(task: Task): Promise<void> {
+        throw new NotYetSupportedError('File system commands are not yet supported');
+        // const verbs = command.split(' ');
+        // switch (verbs[0]) {
+        //     case 'replace':
+        //         const fileContents = await fs.readFile(verbs[5], 'utf8');
+        //         fileContents.replace(verbs[1], verbs[3]);
+        //         await fs.writeFile(verbs[5], fileContents);
+        //         break;
+        //     case 'move':
+        //         fs.unlink
+        //         break;
+        //     case 'delete':
+        //         await fs.unlink(verbs[1]);
+        //         break;
+        //     case 'append':
+        //         await fs.writeFile(verbs[3], verbs[1], {flag: 'a'});
+        //         break;
+        //     case 'write':
+        //         await fs.writeFile(verbs[3], verbs[1]);
+        //         break;
+        //     default:
+        //         // TODO throw error
+        //         break;
+        // }
     }
 
     private replaceArguments(task: string): string {
@@ -118,9 +181,26 @@ export default class Executor extends SfdxCommand {
 }
 
 interface Command {
-    tasks: string[];
+    tasks: Task[];
     label: string;
-    onError: string;
-    finally: string;
+    onError: Task;
+    finally: Task;
     propagateErrors: boolean;
 }
+
+interface Task {
+    type: string;
+    command: string;
+    parallelTasks: Task[];
+    index: number;
+}
+
+class TaskExecutionError extends Error {
+    public lineNumber: number;
+    constructor(errorMessage: string, lineNumber: number) {
+        super(errorMessage);
+        this.lineNumber = lineNumber;
+    }
+}
+
+class NotYetSupportedError extends Error {}

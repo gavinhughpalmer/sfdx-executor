@@ -3,7 +3,7 @@
         "label": "Error with Propagating",
         "description": "This test will execute an SFDX command which does not exist, expecting the error to propagate",
         "tasks": [
-            "this:is:not:a:command"
+            { "type": "sfdx", "command": "force:alias:set" }
         ],
         "propagateErrors": true
     },
@@ -11,7 +11,7 @@
         "label": "Error with Finnally Command",
         "description": "This test will throw an error, and then execute the finally command",
         "tasks": [
-            "this:is:not:a:command"
+            { "type": "sfdx", "command": "force:alias:set" }
         ],
         "propagateErrors": false,
         "finally": "force -h"
@@ -20,7 +20,7 @@
         "label": "Error with On Error Command",
         "description": "This test will execute an on error command once an error is seen in the execution",
         "tasks": [
-            "this:is:not:a:command"
+            { "type": "sfdx", "command": "force:alias:set" }
         ],
         "propagateErrors": false,
         "onError": "force -h"
@@ -29,7 +29,7 @@
         "label": "Successful Command",
         "description": "This test will execute an successful command",
         "tasks": [
-            "force -h"
+            { "type": "sfdx", "command": "force -h" }
         ],
         "propagateErrors": false,
         "onError": "force -h"
@@ -38,7 +38,7 @@
         "label": "Plan with Arguments",
         "description": "This plan will contain arguments to be input which then get stripped out prior to being executed",
         "tasks": [
-            "force ${0}"
+            { "type": "sfdx", "command": "force ${0}" }
         ],
         "propagateErrors": true
     },
@@ -46,7 +46,7 @@
         "label": "Plan with Multiple Arguments",
         "description": "This plan will contain multiple arguments to be input which then get stripped out prior to being executed",
         "tasks": [
-            "force ${0} ${1}"
+            { "type": "sfdx", "command": "force ${0} ${1}" }
         ],
         "propagateErrors": false
     }
