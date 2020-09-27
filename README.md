@@ -19,7 +19,7 @@ $ npm install -g sfdx-executor
 $ sfdx COMMAND
 running command...
 $ sfdx (-v|--version|version)
-sfdx-executor/0.1.1 darwin-x64 node-v14.4.0
+sfdx-executor/1.0.0 darwin-x64 node-v14.4.0
 $ sfdx --help [COMMAND]
 USAGE
   $ sfdx COMMAND
@@ -27,20 +27,20 @@ USAGE
 ```
 <!-- usagestop -->
 <!-- commands -->
-* [`sfdx executor:run -p <string> -c <string> [-a <array>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfdx-executorrun--p-string--c-string--a-array---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
+* [`sfdx executor:run -p <string> -c <string> [-a <array>] [-r <number>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfdx-executorrun--p-string--c-string--a-array--r-number---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
 
-## `sfdx executor:run -p <string> -c <string> [-a <array>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
+## `sfdx executor:run -p <string> -c <string> [-a <array>] [-r <number>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
 
 This command allows a series of SFDX commands to be scripted without the need for bash scripts (which are then not cross platform), this can automate tasks like setting up a scratch org
 
 ```
 USAGE
-  $ sfdx executor:run -p <string> -c <string> [-a <array>] [--json] [--loglevel
+  $ sfdx executor:run -p <string> -c <string> [-a <array>] [-r <number>] [--json] [--loglevel 
   trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]
 
 OPTIONS
   -a, --arguments=arguments
-      An array of the elements that you wish to pass into the command being executed, the values will then be entered in
+      An array of the elements that you wish to pass into the command being executed, the values will then be entered in 
       by their index of the array into the number (eg $1) within the tasks in the plan file
 
   -c, --command=command
@@ -48,6 +48,9 @@ OPTIONS
 
   -p, --planfile=planfile
       (required) The path to the plan json file
+
+  -r, --resume=resume
+      Flag to allow for a command execution to resume part way along the processing
 
   --json
       format output as json
@@ -62,7 +65,7 @@ EXAMPLE
      Finished!
 ```
 
-_See code: [lib/commands/executor/run.js](https://github.com/gavinhughpalmer/sfdx-executor/blob/v0.1.1/lib/commands/executor/run.js)_
+_See code: [lib/commands/executor/run.js](https://github.com/gavinhughpalmer/sfdx-executor/blob/v1.0.0/lib/commands/executor/run.js)_
 <!-- commandsstop -->
 <!-- debugging-your-plugin -->
 # Debugging your plugin
