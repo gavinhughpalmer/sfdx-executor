@@ -3,7 +3,7 @@
         "label": "Error with Propagating",
         "description": "This test will execute an SFDX command which does not exist, expecting the error to propagate",
         "tasks": [
-            { "type": "sfdx", "command": "this:is:not:a:command" }
+            { "type": "sfdx", "command": "force:alias:set" }
         ],
         "propagateErrors": true
     },
@@ -11,7 +11,7 @@
         "label": "Error with Finnally Command",
         "description": "This test will throw an error, and then execute the finally command",
         "tasks": [
-            { "type": "sfdx", "command": "this:is:not:a:command" }
+            { "type": "sfdx", "command": "force:alias:set" }
         ],
         "propagateErrors": false,
         "finally": "force -h"
@@ -20,7 +20,7 @@
         "label": "Error with On Error Command",
         "description": "This test will execute an on error command once an error is seen in the execution",
         "tasks": [
-            { "type": "sfdx", "command": "this:is:not:a:command" }
+            { "type": "sfdx", "command": "force:alias:set" }
         ],
         "propagateErrors": false,
         "onError": "force -h"

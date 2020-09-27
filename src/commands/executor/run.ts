@@ -117,10 +117,16 @@ export default class Executor extends SfdxCommand {
             const command = this.replaceArguments(task.command);
             this.ux.log(`Executing 'sfdx ${command}'...`);
             const spawnedCommand = spawn('sfdx', command.split(' '), {
-                stdio: "inherit"
+                stdio: 'inherit'
             });
-            spawnedCommand.on("close", resolve);
-            spawnedCommand.on("error", error => {
+            spawnedCommand.on('close', code => {
+                if (code !== 0) {
+                    reject(new TaskExecutionError(`Command failed with error code ${code}`, task.index));
+                } else {
+                    resolve();
+                }
+            });
+            spawnedCommand.on('error', error => {
                 reject(new TaskExecutionError(error.message, task.index));
             });
         });
