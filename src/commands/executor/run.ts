@@ -133,30 +133,33 @@ export default class Executor extends SfdxCommand {
     }
 
     private async resolveFsTask(task: Task): Promise<void> {
-        throw new NotYetSupportedError('File system commands are not yet supported');
-        // const verbs = command.split(' ');
-        // switch (verbs[0]) {
-        //     case 'replace':
-        //         const fileContents = await fs.readFile(verbs[5], 'utf8');
-        //         fileContents.replace(verbs[1], verbs[3]);
-        //         await fs.writeFile(verbs[5], fileContents);
-        //         break;
-        //     case 'move':
-        //         fs.unlink
-        //         break;
-        //     case 'delete':
-        //         await fs.unlink(verbs[1]);
-        //         break;
-        //     case 'append':
-        //         await fs.writeFile(verbs[3], verbs[1], {flag: 'a'});
-        //         break;
-        //     case 'write':
-        //         await fs.writeFile(verbs[3], verbs[1]);
-        //         break;
-        //     default:
-        //         // TODO throw error
-        //         break;
-        // }
+        this.ux.log(`Executing ${task.command}`);
+        const verbs = task.command.split(' ');
+        switch (verbs[0]) {
+            case 'replace':
+                let fileContents = await fs.readFile(verbs[5], 'utf8');
+                // TODO move the split option into a reusable function
+                fileContents = fileContents.split(verbs[1]).join(verbs[3]);
+                await fs.writeFile(verbs[5], fileContents);
+                break;
+            case 'move':
+                let contents = await fs.readFile(verbs[1], 'utf8');
+                await fs.writeFile(verbs[3], contents);
+                await fs.unlink(verbs[1]);
+                break;
+            case 'delete':
+                await fs.unlink(verbs[1]);
+                break;
+            case 'append':
+                await fs.writeFile(verbs[3], verbs[1], {flag: 'a'});
+                break;
+            case 'write':
+                await fs.writeFile(verbs[3], verbs[1]);
+                break;
+            default:
+                // TODO throw error
+                break;
+        }
     }
 
     private replaceArguments(task: string): string {
