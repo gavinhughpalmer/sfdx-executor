@@ -143,7 +143,7 @@ export default class Executor extends SfdxCommand {
                 await fs.writeFile(verbs[5], fileContents);
                 break;
             case 'move':
-                let contents = await fs.readFile(verbs[1], 'utf8');
+                const contents = await fs.readFile(verbs[1], 'utf8');
                 await fs.writeFile(verbs[3], contents);
                 await fs.unlink(verbs[1]);
                 break;
