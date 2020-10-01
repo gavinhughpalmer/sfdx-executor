@@ -68,4 +68,13 @@ describe('executor:run', () => {
         expect(ctx.stdout).to.contain(firstArgument);
         expect(ctx.stdout).to.contain(secondArgument);
     });
+
+    test.stdout().stderr().command([
+        'executor:run',
+        '--planfile', plansPath,
+        '--command', 'planWithParallelTasks'
+    ]).it('runs Parallel Commands', ctx => {
+        expect(ctx.stdout).to.contain('Executing \'parallel  tasks\'');
+        expect(ctx.stderr).to.contains('ERROR running executor:run');
+    });
 });

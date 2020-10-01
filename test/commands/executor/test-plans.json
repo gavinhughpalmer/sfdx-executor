@@ -49,5 +49,16 @@
             { "type": "sfdx", "command": "force ${0} ${1}" }
         ],
         "propagateErrors": false
+    },
+    "planWithParallelTasks": {
+        "label": "Plan with Multiple Arguments",
+        "description": "This plan will contain multiple arguments to be input which then get stripped out prior to being executed",
+        "tasks": [
+            { "type": "parallel", "parallelTasks": [
+                { "type": "sfdx", "command": "force -h" },
+                { "type": "sfdx", "command": "force:alias:set" }
+            ]}
+        ],
+        "propagateErrors": true
     }
 }
