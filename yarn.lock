@@ -610,10 +610,10 @@
     mkdirp "1.0.4"
     sfdx-faye "^1.0.9"
 
-"@salesforce/core@2.12.2", "@salesforce/core@^2.12.1":
-  version "2.12.2"
-  resolved "https://registry.yarnpkg.com/@salesforce/core/-/core-2.12.2.tgz#df7041611d7451d1f8ca5e634c0aac276528c51b"
-  integrity sha512-y0lIHeak937q84T/FKCSD9nDiC+irORW9nmeHQKRgzOX9jG4Cti+IPK6hpon8Hl5Laf/1ZFQUqOFspeKYgz1YA==
+"@salesforce/core@2.12.3":
+  version "2.12.3"
+  resolved "https://registry.yarnpkg.com/@salesforce/core/-/core-2.12.3.tgz#50d45615efe3273ad4b437e6b80ed3aa39180038"
+  integrity sha512-vDT9XBjRHs31q6tA8HwEBU2JENWKMbDPtkISS3qLX5iKkmPPYobSPJBRVheleP/bMCkwhc7QEwZYUNtHeGHBRw==
   dependencies:
     "@salesforce/bunyan" "^2.0.0"
     "@salesforce/kit" "^1.3.2"
@@ -657,6 +657,25 @@
     "@salesforce/ts-types" "^1.0.0"
     "@types/graceful-fs" "^4.1.3"
     "@types/jsforce" "1.9.2"
+    debug "^3.1.0"
+    graceful-fs "^4.2.4"
+    jsen "0.6.6"
+    jsforce "1.9.3"
+    jsonwebtoken "8.5.0"
+    mkdirp "1.0.4"
+    sfdx-faye "^1.0.9"
+
+"@salesforce/core@^2.12.1":
+  version "2.12.2"
+  resolved "https://registry.yarnpkg.com/@salesforce/core/-/core-2.12.2.tgz#df7041611d7451d1f8ca5e634c0aac276528c51b"
+  integrity sha512-y0lIHeak937q84T/FKCSD9nDiC+irORW9nmeHQKRgzOX9jG4Cti+IPK6hpon8Hl5Laf/1ZFQUqOFspeKYgz1YA==
+  dependencies:
+    "@salesforce/bunyan" "^2.0.0"
+    "@salesforce/kit" "^1.3.2"
+    "@salesforce/schemas" "^1.0.1"
+    "@salesforce/ts-types" "^1.0.0"
+    "@types/graceful-fs" "^4.1.3"
+    "@types/jsforce" "1.9.20"
     debug "^3.1.0"
     graceful-fs "^4.2.4"
     jsen "0.6.6"
