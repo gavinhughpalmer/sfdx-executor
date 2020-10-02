@@ -2,6 +2,7 @@ import { expect, test } from '@salesforce/command/lib/test';
 
 
 describe('executor:run', () => {
+
     const plansPath = __dirname + '/test-plans.json';
 
     test.stderr().stdout().command([
