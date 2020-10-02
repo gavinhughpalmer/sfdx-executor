@@ -70,8 +70,6 @@ export default class Executor extends SfdxCommand {
         if (errorMessage && command.propagateErrors) {
             throw new SfdxError(errorMessage);
         }
-        // TODO could also include logic to loop over certain variables as they are passed into the plugin (eg with permission sets so we can just list out a bunch and pass them in there)
-        // TODO document how to setup the plan files
     }
 
     private async getCommand(): Promise<Command> {
