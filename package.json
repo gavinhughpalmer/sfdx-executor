@@ -1,7 +1,7 @@
 {
   "name": "sfdx-executor",
   "description": "This plugin is to execure series of sfdx commands simplifiying tasks that require a number of commands to be executed",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "author": "Gavin Palmer",
   "bugs": "https://github.com/gavinhughpalmer/sfdx-executor/issues",
   "dependencies": {
@@ -25,7 +25,7 @@
     "globby": "11.0.1",
     "mocha": "5.2.0",
     "nyc": "15.1.0",
-    "sfdx-cli": "7.74.1",
+    "sfdx-cli": "7.75.0",
     "ts-node": "9.0.0",
     "tslint": "6.1.3"
   },
