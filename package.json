@@ -59,6 +59,7 @@
   "scripts": {
     "lint": "tslint --project . --config tslint.json --format stylish",
     "postpack": "rm -f oclif.manifest.json",
+    "pretest": "tsc",
     "posttest": "tslint -p test -t stylish",
     "prepack": "rm -rf lib && tsc -b && oclif-dev manifest && oclif-dev readme",
     "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\"",

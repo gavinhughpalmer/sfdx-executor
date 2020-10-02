@@ -1,5 +1,5 @@
 import { spawn } from 'child_process';
-import { Task, TaskExecutionError } from '../task';
+import { Task } from '../task';
 
 export function resolveSfdxTask(task: Task): Promise<void> {
     return new Promise((resolve, reject) => {
@@ -10,13 +10,13 @@ export function resolveSfdxTask(task: Task): Promise<void> {
         });
         spawnedCommand.on('close', code => {
             if (code !== 0) {
-                reject(new TaskExecutionError(`Command failed with error code ${code}`, task.index));
+                reject(new Error(`Command failed with error code ${code}`));
             } else {
                 resolve();
             }
         });
         spawnedCommand.on('error', error => {
-            reject(new TaskExecutionError(error.message, task.index));
+            reject(new Error(error.message));
         });
     });
 }
