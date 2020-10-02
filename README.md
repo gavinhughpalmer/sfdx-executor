@@ -41,7 +41,7 @@ USAGE
 OPTIONS
   -a, --arguments=arguments
       An array of the elements that you wish to pass into the command being executed, the values will then be entered in 
-      by their index of the array into the number (eg $1) within the tasks in the plan file
+      by their index of the array into the number (eg ${1}) within the tasks in the plan file
 
   -c, --command=command
       (required) The specific command that you wish to run from the plan file

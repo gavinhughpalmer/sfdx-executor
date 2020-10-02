@@ -2,6 +2,7 @@ import { flags, SfdxCommand } from '@salesforce/command';
 import { fs, Messages, SfdxError } from '@salesforce/core';
 import { execute } from '../../main/executor';
 import { Command, TaskExecutionError } from '../../main/task';
+import { replaceAll } from '../../main/utilities';
 
 // Initialize Messages with the current plugin directory
 Messages.importMessagesDirectory(__dirname);
@@ -9,7 +10,6 @@ Messages.importMessagesDirectory(__dirname);
 // Load the specific messages for this file. Messages from @salesforce/command, @salesforce/core,
 const messages = Messages.loadMessages('sfdx-executor', 'org');
 
-// TODO refactor naming as it is confusing with task and command being used in different places
 export default class Executor extends SfdxCommand {
 
     public static description = messages.getMessage('commandDescription');
@@ -72,7 +72,6 @@ export default class Executor extends SfdxCommand {
         }
         // TODO could also include logic to loop over certain variables as they are passed into the plugin (eg with permission sets so we can just list out a bunch and pass them in there)
         // TODO document how to setup the plan files
-        // TODO validate data structures that are incomming
     }
 
     private async getCommand(): Promise<Command> {
@@ -102,8 +101,7 @@ export default class Executor extends SfdxCommand {
             const replacement = argumentPlaceholders[0];
             const argument = inputArguments[argumentPlaceholders[1]];
             if (task.includes(replacement)) {
-                // using in place of replace all as this doesn't seem to exist in this version of node
-                task = task.split(replacement).join(argument);
+                task = replaceAll(task, replacement, argument);
             } else {
                 throw new SfdxError(messages.getMessage('noArgumentsProvidedError'));
             }
