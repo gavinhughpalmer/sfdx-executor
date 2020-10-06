@@ -20,7 +20,7 @@
     "@salesforce/ts-sinon": "1.2.3",
     "@types/chai": "4.2.13",
     "@types/mocha": "5.2.7",
-    "@types/node": "10.17.36",
+    "@types/node": "10.17.37",
     "chai": "4.2.0",
     "globby": "11.0.1",
     "mocha": "5.2.0",
