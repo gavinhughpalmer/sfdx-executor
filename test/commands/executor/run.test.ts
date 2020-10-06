@@ -78,4 +78,6 @@ describe('executor:run', () => {
         expect(ctx.stdout).to.contains('Executing \'parallel  tasks\'');
         expect(ctx.stderr).to.contains('ERROR running executor:run');
     });
+
+    // TODO include a test for swapping out variables in FS tasks and in parallel tasks (as I have seen a bug here)
 });
