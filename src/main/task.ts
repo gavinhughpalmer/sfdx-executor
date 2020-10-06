@@ -8,9 +8,9 @@ interface Command {
 
 interface Task {
     type: string;
-    command: string;
-    parallelTasks: Task[];
-    index: number;
+    command?: string;
+    parallelTasks?: Task[];
+    index?: number;
 }
 
 class TaskExecutionError extends Error {

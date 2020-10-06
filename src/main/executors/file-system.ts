@@ -52,6 +52,9 @@ const functions = {
 };
 
 export function resolveFsTask(task: Task): Promise<void> {
+    if (!task.command) {
+        return Promise.reject('The command must be specifid for a file system type task');
+    }
     const verbs = task.command.split(' ');
     if (!(verbs[0] in functions)) {
         throw new NotYetSupportedError(`The function ${verbs[0]} is not supported`);

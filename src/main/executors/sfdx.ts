@@ -2,6 +2,9 @@ import { spawn } from 'child_process';
 import { Task } from '../task';
 
 export function resolveSfdxTask(task: Task): Promise<void> {
+    if (!task.command) {
+        return Promise.reject('The command must be specifid for an sfdx type task');
+    }
     return new Promise((resolve, reject) => {
         const spawnedCommand = spawn('sfdx', task.command.split(' '), {
             stdio: 'inherit',
