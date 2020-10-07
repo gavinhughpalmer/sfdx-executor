@@ -2,10 +2,9 @@
   "commandDescription": "This command allows a series of SFDX commands to be scripted without the need for bash scripts (which are then not cross platform), this can automate tasks like setting up a scratch org",
   "planCommandFlagDescription": "The specific command that you wish to run from the plan file",
   "planFileFlagDescription": "The path to the plan json file",
-  "argumentsFlagDescription": "An array of the elements that you wish to pass into the command being executed, the values will then be entered in by their index of the array into the number (eg $1) within the tasks in the plan file",
+  "argumentsFlagDescription": "An array of the elements that you wish to pass into the command being executed, the values will then be entered in by their index of the array into the number (eg ${1}) within the tasks in the plan file",
   "planFileMissingError": "The plan file cannot be found, please check the path being provided",
   "commandPlanMissingError": "The command specified cannot be found in the plan file",
   "noTasksDefinedError": "There are no tasks defined, please specify to execute",
-  "noArgumentsProvidedError": "The command provided requires arguments to be passed in, please ensure these are entered using the -a flag",
   "resumeFlagDescription": "Flag to allow for a command execution to resume part way along the processing"
 }
