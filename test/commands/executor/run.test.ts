@@ -10,8 +10,8 @@ describe('executor:run', () => {
         '--planfile', plansPath,
         '--command', 'errorWithPropagating'
     ]).it('runs Error with Propagating', ctx => {
-        expect(ctx.stdout).to.contains('force:alias:set');
-        expect(ctx.stderr).to.contains('ERROR running executor:run');
+        expect(ctx.stdout).to.contain('force:alias:set');
+        expect(ctx.stderr).to.contain('ERROR running executor:run');
     });
 
     test.stdout().command([
@@ -19,7 +19,7 @@ describe('executor:run', () => {
         '--planfile', plansPath,
         '--command', 'errorWithFinally'
     ]).it('runs Error with Finnally Command', ctx => {
-        expect(ctx.stdout).to.contains('Running Finally Task...');
+        expect(ctx.stdout).to.contain('Running Finally Task...');
     });
 
     test.stdout().command([
@@ -27,7 +27,7 @@ describe('executor:run', () => {
         '--planfile', plansPath,
         '--command', 'errorWithErrorHandler'
     ]).it('runs Error with On Error Command', ctx => {
-        expect(ctx.stdout).to.contains('Running On Error Task...');
+        expect(ctx.stdout).to.contain('Running On Error Task...');
     });
 
     test.stdout().stderr().command([
@@ -35,7 +35,7 @@ describe('executor:run', () => {
         '--planfile', plansPath,
         '--command', 'successfulCommand'
     ]).it('runs Successful Command', ctx => {
-        expect(ctx.stdout).to.contains('sfdx force -h');
+        expect(ctx.stdout).to.contain('sfdx force -h');
         expect(ctx.stderr).to.equal('');
     });
 
@@ -46,8 +46,8 @@ describe('executor:run', () => {
         '--command', 'planWithArguments',
         '--arguments', argumentToReplace
     ]).it('runs Plan With Arguments', ctx => {
-        expect(ctx.stdout).to.contains(argumentToReplace);
-        expect(ctx.stderr).to.contains('ERROR running executor:run');
+        expect(ctx.stdout).to.contain(argumentToReplace);
+        expect(ctx.stderr).to.contain('ERROR running executor:run');
     });
 
     test.stderr().command([
@@ -55,7 +55,7 @@ describe('executor:run', () => {
         '--planfile', plansPath,
         '--command', 'planWithArguments'
     ]).it('runs Plan without Arguments', ctx => {
-        expect(ctx.stderr).to.contains('ERROR running executor:run');
+        expect(ctx.stderr).to.contain('ERROR running executor:run');
     });
 
     const firstArgument = 'firstArg';
@@ -66,8 +66,8 @@ describe('executor:run', () => {
         '--command', 'planWithMultipleArguments',
         '--arguments', `${firstArgument},${secondArgument}`
     ]).it('runs Plan With Multiple Arguments', ctx => {
-        expect(ctx.stdout).to.contains(firstArgument);
-        expect(ctx.stdout).to.contains(secondArgument);
+        expect(ctx.stdout).to.contain(firstArgument);
+        expect(ctx.stdout).to.contain(secondArgument);
     });
 
     test.stdout().stderr().command([
@@ -75,9 +75,31 @@ describe('executor:run', () => {
         '--planfile', plansPath,
         '--command', 'planWithParallelTasks'
     ]).it('runs Parallel Commands', ctx => {
-        expect(ctx.stdout).to.contains('Executing \'parallel  tasks\'');
-        expect(ctx.stderr).to.contains('ERROR running executor:run');
+        expect(ctx.stdout).to.contain('Executing \'parallel  tasks\'');
+        expect(ctx.stderr).to.contain('ERROR running executor:run');
     });
 
-    // TODO include a test for swapping out variables in FS tasks and in parallel tasks (as I have seen a bug here)
+    test.stdout().stderr().command([
+        'executor:run',
+        '--planfile', './invalid/file/path.json',
+        '--command', 'thereIsNoFile'
+    ]).it('runs Invalid File Path', ctx => {
+        expect(ctx.stderr).to.contain('ERROR running executor:run');
+    });
+
+    test.stdout().stderr().command([
+        'executor:run',
+        '--planfile', plansPath,
+        '--command', 'invalidCommandName'
+    ]).it('runs Invalid Command Name', ctx => {
+        expect(ctx.stderr).to.contain('ERROR running executor:run');
+    });
+
+    test.stdout().stderr().command([
+        'executor:run',
+        '--planfile', plansPath,
+        '--command', 'commandWithNoTasks'
+    ]).it('runs Plan with no Tasks', ctx => {
+        expect(ctx.stderr).to.contain('ERROR running executor:run');
+    });
 });

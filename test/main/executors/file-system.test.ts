@@ -6,7 +6,7 @@ import { Task } from '../../../src/main/task';
 chai.use(chaiAsPromised);
 const expect = chai.expect;
 
-//TODO Positive tests
+//TODO tests for each of the commands, and with incorrect numbers of arguments passed in
 
 describe('Resolve File System Tasks', () => {
     // it('should resolve for a successful command', () => {

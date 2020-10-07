@@ -6,6 +6,5 @@
   "planFileMissingError": "The plan file cannot be found, please check the path being provided",
   "commandPlanMissingError": "The command specified cannot be found in the plan file",
   "noTasksDefinedError": "There are no tasks defined, please specify to execute",
-  "noArgumentsProvidedError": "The command provided requires arguments to be passed in, please ensure these are entered using the -a flag",
   "resumeFlagDescription": "Flag to allow for a command execution to resume part way along the processing"
 }

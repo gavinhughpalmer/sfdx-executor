@@ -1,8 +1,7 @@
 import { flags, SfdxCommand } from '@salesforce/command';
 import { fs, Messages, SfdxError } from '@salesforce/core';
-import { execute } from '../../main/executor';
+import { TaskExecutor } from '../../main/executor';
 import { Command, TaskExecutionError } from '../../main/task';
-import { replaceAll } from '../../main/utilities';
 
 // Initialize Messages with the current plugin directory
 Messages.importMessagesDirectory(__dirname);
@@ -34,20 +33,19 @@ export default class Executor extends SfdxCommand {
     protected static requiresUsername = false;
     protected static supportsDevhubUsername = false;
     protected static requiresProject = false;
-    private static argumentPlaceholder = /\$\{(\d+)\}/; // looks for ${0} in the arguments
 
     public async run(): Promise<void> {
         const command = await this.getCommand();
         this.ux.log(`Executing ${command.label}...`);
         let errorMessage: string;
+        const taskExecutor = new TaskExecutor(this.flags.arguments);
         try {
             for (let i = this.flags.resume; i < command.tasks.length; i++) {
                 const taskToRun = command.tasks[i];
-                taskToRun.command = this.replaceArguments(taskToRun.command);
                 this.ux.log(`Executing '${taskToRun.type} ${taskToRun.command ? taskToRun.command : ' tasks'}'...`);
                 const task = command.tasks[i];
                 task.index = i;
-                await execute(task);
+                await taskExecutor.execute(task);
             }
         } catch (error) {
             errorMessage = error.message;
@@ -60,12 +58,12 @@ export default class Executor extends SfdxCommand {
             }
             if (command.onError) {
                 this.ux.log('Running On Error Task...');
-                await execute(command.onError);
+                await taskExecutor.execute(command.onError);
             }
         }
         if (command.finally) {
             this.ux.log('Running Finally Task...');
-            await execute(command.finally);
+            await taskExecutor.execute(command.finally);
         }
         if (errorMessage && command.propagateErrors) {
             throw new SfdxError(errorMessage);
@@ -83,28 +81,9 @@ export default class Executor extends SfdxCommand {
             throw new SfdxError(messages.getMessage('commandPlanMissingError'));
         }
         const command = planFile[this.flags.command];
-        if (!command.tasks) {
+        if (!Array.isArray(command.tasks) || !command.tasks.length) {
             throw new SfdxError(messages.getMessage('noTasksDefinedError'));
         }
         return command;
-    }
-
-    private replaceArguments(task: string): string {
-        const inputArguments = this.flags.arguments;
-        let argumentPlaceholders = Executor.argumentPlaceholder.exec(task);
-        if (!inputArguments && argumentPlaceholders) {
-            throw new SfdxError(messages.getMessage('noArgumentsProvidedError'));
-        }
-        while (argumentPlaceholders !== null) {
-            const replacement = argumentPlaceholders[0];
-            const argument = inputArguments[argumentPlaceholders[1]];
-            if (task.includes(replacement)) {
-                task = replaceAll(task, replacement, argument);
-            } else {
-                throw new SfdxError(messages.getMessage('noArgumentsProvidedError'));
-            }
-            argumentPlaceholders = Executor.argumentPlaceholder.exec(task);
-        }
-        return task;
     }
 }

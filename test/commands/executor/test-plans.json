@@ -60,5 +60,11 @@
             ]}
         ],
         "propagateErrors": true
+    },
+    "commandWithNoTasks": {
+        "label": "Plan with No Defined Tasks",
+        "description": "This command will not contain any tasks",
+        "tasks": [],
+        "propagateErrors": true
     }
 }

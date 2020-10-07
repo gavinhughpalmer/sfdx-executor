@@ -1,21 +1,53 @@
 import { resolveFsTask } from './executors/file-system';
-import { resolveParallelTasks } from './executors/parallel';
+import { ParallelTasksExecutor } from './executors/parallel';
 import { resolveSfdxTask } from './executors/sfdx';
 import { NotYetSupportedError, Task, TaskExecutionError } from './task';
+import { replaceAll } from './utilities';
 
-const taskExecutors = {
-    parallel: resolveParallelTasks,
-    sfdx: resolveSfdxTask,
-    fs: resolveFsTask
-};
+export class TaskExecutor {
+    private static argumentPlaceholder = /\$\{(\d+)\}/; // looks for ${0} in the arguments
+    private parallelExecutor: ParallelTasksExecutor;
+    private taskExecutors = {
+        parallel: null,
+        sfdx: resolveSfdxTask,
+        fs: resolveFsTask
+    };
 
-export async function execute(task: Task): Promise<void | void[]> {
-    if (!(task.type in taskExecutors)) {
-        throw new NotYetSupportedError(`The command type of ${task.type} is not supported`);
+    private inputArguments: string[];
+
+    constructor(inputArguments?: string[]) {
+        this.inputArguments = inputArguments || [];
+        this.parallelExecutor = new ParallelTasksExecutor(this);
+        this.taskExecutors['parallel'] = this.parallelExecutor.resolveParallelTasks;
     }
-    try {
-        await taskExecutors[task.type](task);
-    } catch (error) {
-        throw new TaskExecutionError(error.message, task.index);
+
+    public async execute(task: Task): Promise<void | void[]> {
+        if (!(task.type in this.taskExecutors)) {
+            throw new NotYetSupportedError(`The command type of ${task.type} is not supported`);
+        }
+        try {
+            task.command = this.replaceArguments(task.command);
+            await this.taskExecutors[task.type](task);
+        } catch (error) {
+            throw new TaskExecutionError(error.message, task.index);
+        }
+    }
+
+    private replaceArguments(command: string): string {
+        let argumentPlaceholders = TaskExecutor.argumentPlaceholder.exec(command);
+        if (!this.inputArguments && argumentPlaceholders) {
+            throw new Error('Invalid arguments have been provided');
+        }
+        while (argumentPlaceholders !== null) {
+            const replacement = argumentPlaceholders[0];
+            const argument = this.inputArguments[argumentPlaceholders[1]];
+            if (command.includes(replacement)) {
+                command = replaceAll(command, replacement, argument);
+            } else {
+                throw new Error('Invalid arguments have been provided');
+            }
+            argumentPlaceholders = TaskExecutor.argumentPlaceholder.exec(command);
+        }
+        return command;
     }
 }
