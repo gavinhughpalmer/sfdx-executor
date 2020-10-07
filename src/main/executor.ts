@@ -35,13 +35,13 @@ export class TaskExecutor {
 
     private replaceArguments(command: string): string {
         let argumentPlaceholders = TaskExecutor.argumentPlaceholder.exec(command);
-        if (!this.inputArguments && argumentPlaceholders) {
+        if ((!Array.isArray(this.inputArguments) || !this.inputArguments.length) && argumentPlaceholders) {
             throw new Error('Invalid arguments have been provided');
         }
         while (argumentPlaceholders !== null) {
             const replacement = argumentPlaceholders[0];
             const argument = this.inputArguments[argumentPlaceholders[1]];
-            if (command.includes(replacement)) {
+            if (!!argument) {
                 command = replaceAll(command, replacement, argument);
             } else {
                 throw new Error('Invalid arguments have been provided');

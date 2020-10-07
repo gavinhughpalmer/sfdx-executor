@@ -1,5 +1,6 @@
 import * as chai from 'chai';
-import chaiAsPromised = require("chai-as-promised");
+import chaiAsPromised = require('chai-as-promised');
+import { TaskExecutor } from '../../../src/main/executor';
 import { ParallelTasksExecutor } from '../../../src/main/executors/parallel';
 import { Task } from '../../../src/main/task';
 
@@ -12,8 +13,8 @@ describe('Resolve Parallel Tasks', () => {
         const myTask: Task = {
             type: 'parallel',
             parallelTasks: [
-                { type: "sfdx", command: "force -h" },
-                { type: "sfdx", command: "force -h" }
+                { type: 'sfdx', command: 'force -h' },
+                { type: 'sfdx', command: 'force -h' }
             ],
             index: 0
         };
@@ -23,8 +24,8 @@ describe('Resolve Parallel Tasks', () => {
         const myTask: Task = {
             type: 'parallel',
             parallelTasks: [
-                { type: "sfdx", command: "force:org:create" },
-                { type: "sfdx", command: "force -h" }
+                { type: 'sfdx', command: 'force:org:create' },
+                { type: 'sfdx', command: 'force -h' }
             ],
             index: 0
         };
@@ -37,8 +38,8 @@ describe('Resolve Parallel Tasks', () => {
                 {
                     type: 'parallel',
                     parallelTasks: [
-                        { type: "sfdx", command: "force -h" },
-                        { type: "sfdx", command: "force -h" }
+                        { type: 'sfdx', command: 'force -h' },
+                        { type: 'sfdx', command: 'force -h' }
                     ]
                 }
             ],
@@ -53,6 +54,19 @@ describe('Resolve Parallel Tasks', () => {
         };
         return expect(parallelExecutor.resolveParallelTasks(myTask)).to.eventually.be.rejected;
     });
+    it('should replace argument placeholders', () => {
+        const parallelExecutorWithArguments = new ParallelTasksExecutor(new TaskExecutor([
+            '-h',
+            'force'
+        ]));
+        const myTask: Task = {
+            type: 'parallel',
+            parallelTasks: [
+                { type: 'sfdx', command: 'force ${0}' },
+                { type: 'sfdx', command: '${1} -h' }
+            ],
+            index: 0
+        };
+        return expect(parallelExecutorWithArguments.resolveParallelTasks(myTask)).to.eventually.be.fulfilled;
+    });
 });
-
-// TODO include a test for swapping out variables in parallel tasks (as I have seen a bug here)

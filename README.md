@@ -59,6 +59,7 @@ The "finally" attribute within a plan file accepts a task object, this will be e
 If a failure does occur midway through executing, the command can be rerun from the point of failure by using the --resume (-r) attribute, and passing in the item of the list that it should start from (note parallel tasks count as 1 task). This will be output to the terminal in case of failure.
 
 <!-- toc -->
+* [Plan Files](#plan-files)
 * [Debugging your plugin](#debugging-your-plugin)
 <!-- tocstop -->
 <!-- install -->
@@ -68,7 +69,7 @@ $ npm install -g sfdx-executor
 $ sfdx COMMAND
 running command...
 $ sfdx (-v|--version|version)
-sfdx-executor/1.1.2 darwin-x64 node-v14.4.0
+sfdx-executor/1.1.2 darwin-x64 node-v14.13.0
 $ sfdx --help [COMMAND]
 USAGE
   $ sfdx COMMAND
@@ -84,12 +85,12 @@ This command allows a series of SFDX commands to be scripted without the need fo
 
 ```
 USAGE
-  $ sfdx executor:run -p <string> -c <string> [-a <array>] [-r <number>] [--json] [--loglevel
+  $ sfdx executor:run -p <string> -c <string> [-a <array>] [-r <number>] [--json] [--loglevel 
   trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]
 
 OPTIONS
   -a, --arguments=arguments
-      An array of the elements that you wish to pass into the command being executed, the values will then be entered in
+      An array of the elements that you wish to pass into the command being executed, the values will then be entered in 
       by their index of the array into the number (eg ${1}) within the tasks in the plan file
 
   -c, --command=command
