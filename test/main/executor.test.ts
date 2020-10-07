@@ -47,7 +47,7 @@ describe('Executor', () => {
         return expect(fakeTask.command).to.equal(`${firstArgument}-${secondArgument}`);
     });
 
-    it('Ignore arguments that aren\'t in the command', async () => {
+    it('Ignore arguments that aren\'t in the command', () => {
         const firstArgument = 'firstArgument';
         const secondArgument = 'secondArgument';
 
@@ -60,7 +60,7 @@ describe('Executor', () => {
         return expect(taskExecutor.execute(fakeTask)).to.eventually.be.fulfilled;
     });
 
-    it('Error for Arguments that don\'t exist', async () => {
+    it('Error for Arguments that don\'t exist', () => {
         const firstArgument = 'firstArgument';
         const secondArgument = 'secondArgument';
 
@@ -73,7 +73,7 @@ describe('Executor', () => {
         return expect(taskExecutor.execute(fakeTask)).to.eventually.be.rejected;
     });
 
-    it('Error when arguments aren\'t passed in but refrenced', async () => {
+    it('Error when arguments aren\'t passed in but refrenced', () => {
 
         const taskExecutor = new TaskExecutor([]);
         const fakeTask: Task = {

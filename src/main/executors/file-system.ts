@@ -46,7 +46,7 @@ async function write(verbs: string[]): Promise<void> {
 const functions = {
     replace,
     move,
-    deleteFile,
+    delete: deleteFile,
     append,
     write
 };
