@@ -24,7 +24,7 @@ describe('Resolve Parallel Tasks', () => {
         const myTask: Task = {
             type: 'parallel',
             parallelTasks: [
-                { type: 'sfdx', command: 'force:org:create' },
+                { type: 'sfdx', command: 'force:alias:set' },
                 { type: 'sfdx', command: 'force -h' }
             ],
             index: 0

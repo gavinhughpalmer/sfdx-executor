@@ -1,7 +1,7 @@
 import { flags, SfdxCommand } from '@salesforce/command';
 import { fs, Messages, SfdxError } from '@salesforce/core';
 import { TaskExecutor } from '../../main/executor';
-import { Command, TaskExecutionError } from '../../main/task';
+import { Command, Task, TaskExecutionError } from '../../main/task';
 
 // Initialize Messages with the current plugin directory
 Messages.importMessagesDirectory(__dirname);
@@ -27,7 +27,8 @@ export default class Executor extends SfdxCommand {
         planfile: flags.string({ char: 'p', description: messages.getMessage('planFileFlagDescription'), required: true }),
         command: flags.string({ char: 'c', description: messages.getMessage('planCommandFlagDescription'), required: true }),
         arguments: flags.array({ char: 'a', description: messages.getMessage('argumentsFlagDescription') }),
-        resume: flags.number({ char: 'r', description: messages.getMessage('resumeFlagDescription'), default: 0})
+        resume: flags.number({ char: 'r', description: messages.getMessage('resumeFlagDescription'), default: 0}),
+        includetimestamp: flags.boolean({ char: 't', description: messages.getMessage('includeTimestampDescription'), default: false})
     };
 
     protected static requiresUsername = false;
@@ -42,7 +43,7 @@ export default class Executor extends SfdxCommand {
         try {
             for (let i = this.flags.resume; i < command.tasks.length; i++) {
                 const taskToRun = command.tasks[i];
-                this.ux.log(`Executing '${taskToRun.type} ${taskToRun.command ? taskToRun.command : ' tasks'}'...`);
+                this.logTaskExecution(taskToRun);
                 const task = command.tasks[i];
                 task.index = i;
                 await taskExecutor.execute(task);
@@ -58,11 +59,13 @@ export default class Executor extends SfdxCommand {
             }
             if (command.onError) {
                 this.ux.log('Running On Error Task...');
+                this.logTaskExecution(command.onError);
                 await taskExecutor.execute(command.onError);
             }
         }
         if (command.finally) {
             this.ux.log('Running Finally Task...');
+            this.logTaskExecution(command.finally);
             await taskExecutor.execute(command.finally);
         }
         if (errorMessage && command.propagateErrors) {
@@ -85,5 +88,14 @@ export default class Executor extends SfdxCommand {
             throw new SfdxError(messages.getMessage('noTasksDefinedError'));
         }
         return command;
+    }
+
+    private logTaskExecution(taskToLog: Task): void {
+        const commandLabel = taskToLog.command ? taskToLog.command : ' tasks';
+        this.ux.log(`Executing '${taskToLog.type} ${commandLabel}'...`);
+        if (this.flags.includetimestamp) {
+            const now = new Date();
+            this.ux.log(`   at time: ${now.getTime()}`);
+        }
     }
 }
