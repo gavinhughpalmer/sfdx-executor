@@ -6,5 +6,6 @@
   "planFileMissingError": "The plan file cannot be found, please check the path being provided",
   "commandPlanMissingError": "The command specified cannot be found in the plan file",
   "noTasksDefinedError": "There are no tasks defined, please specify to execute",
-  "resumeFlagDescription": "Flag to allow for a command execution to resume part way along the processing"
+  "resumeFlagDescription": "Flag to allow for a command execution to resume part way along the processing",
+  "includeTimestampDescription": "This flag will include a timestamp in the execution of each of the commands, this can be helpful with profiling a series of command executions. This is logged in milliseconds since epoch"
 }

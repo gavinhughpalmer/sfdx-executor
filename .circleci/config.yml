@@ -28,9 +28,3 @@ workflows:
   "sfdx-executor":
     jobs:
       - run-tests
-      - cache:
-          filters:
-            tags:
-              only: /^v.*/
-            branches:
-              ignore: /.*/

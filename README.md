@@ -69,7 +69,7 @@ $ npm install -g sfdx-executor
 $ sfdx COMMAND
 running command...
 $ sfdx (-v|--version|version)
-sfdx-executor/1.2.1 darwin-x64 node-v14.13.0
+sfdx-executor/1.3.0 darwin-x64 node-v14.13.0
 $ sfdx --help [COMMAND]
 USAGE
   $ sfdx COMMAND
@@ -77,15 +77,15 @@ USAGE
 ```
 <!-- usagestop -->
 <!-- commands -->
-* [`sfdx executor:run -p <string> -c <string> [-a <array>] [-r <number>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfdx-executorrun--p-string--c-string--a-array--r-number---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
+* [`sfdx executor:run -p <string> -c <string> [-a <array>] [-r <number>] [-t] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfdx-executorrun--p-string--c-string--a-array--r-number--t---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
 
-## `sfdx executor:run -p <string> -c <string> [-a <array>] [-r <number>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
+## `sfdx executor:run -p <string> -c <string> [-a <array>] [-r <number>] [-t] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
 
 This command allows a series of SFDX commands to be scripted without the need for bash scripts (which are then not cross platform), this can automate tasks like setting up a scratch org
 
 ```
 USAGE
-  $ sfdx executor:run -p <string> -c <string> [-a <array>] [-r <number>] [--json] [--loglevel 
+  $ sfdx executor:run -p <string> -c <string> [-a <array>] [-r <number>] [-t] [--json] [--loglevel 
   trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]
 
 OPTIONS
@@ -102,6 +102,10 @@ OPTIONS
   -r, --resume=resume
       Flag to allow for a command execution to resume part way along the processing
 
+  -t, --includetimestamp
+      This flag will include a timestamp in the execution of each of the commands, this can be helpful with profiling a 
+      series of command executions. This is logged in milliseconds since epoch
+
   --json
       format output as json
 
@@ -115,7 +119,7 @@ EXAMPLE
      Finished!
 ```
 
-_See code: [lib/commands/executor/run.js](https://github.com/gavinhughpalmer/sfdx-executor/blob/v1.2.1/lib/commands/executor/run.js)_
+_See code: [lib/commands/executor/run.js](https://github.com/gavinhughpalmer/sfdx-executor/blob/v1.3.0/lib/commands/executor/run.js)_
 <!-- commandsstop -->
 <!-- debugging-your-plugin -->
 # Debugging your plugin
