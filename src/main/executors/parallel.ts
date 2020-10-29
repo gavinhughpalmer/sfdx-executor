@@ -3,10 +3,10 @@ import { Task } from '../task';
 
 export class ParallelTasksExecutor {
 
-    private taskExecutor: TaskExecutor;
+    private inputArguments: string[];
 
-    constructor(taskExecutor?: TaskExecutor) {
-        this.taskExecutor = taskExecutor || new TaskExecutor();
+    constructor(inputArguments: string[]) {
+        this.inputArguments = inputArguments || [];
     }
 
     public resolveParallelTasks(task: Task): Promise<void[]> {
@@ -20,8 +20,10 @@ export class ParallelTasksExecutor {
             }
             // assign the index of the parent to ensure if an error is returned it starts the whole parallel set of tasks again
             parallelTask.index = task.index;
-            taskList.push(this.taskExecutor.execute(parallelTask));
+            const taskExecutor = new TaskExecutor(this.inputArguments);
+            taskList.push(taskExecutor.execute(parallelTask));
         }
+        // TODO Errors aren't being returned from the parallel execution
         return Promise.all(taskList);
     }
 }

@@ -1,6 +1,5 @@
 import * as chai from 'chai';
 import chaiAsPromised = require('chai-as-promised');
-import { TaskExecutor } from '../../../src/main/executor';
 import { ParallelTasksExecutor } from '../../../src/main/executors/parallel';
 import { Task } from '../../../src/main/task';
 
@@ -8,7 +7,7 @@ chai.use(chaiAsPromised);
 const expect = chai.expect;
 
 describe('Resolve Parallel Tasks', () => {
-    const parallelExecutor = new ParallelTasksExecutor();
+    const parallelExecutor = new ParallelTasksExecutor([]);
     it('should resolve for both successful commands (within the same timeframe)', () => {
         const myTask: Task = {
             type: 'parallel',
@@ -55,10 +54,10 @@ describe('Resolve Parallel Tasks', () => {
         return expect(parallelExecutor.resolveParallelTasks(myTask)).to.eventually.be.rejected;
     });
     it('should replace argument placeholders', () => {
-        const parallelExecutorWithArguments = new ParallelTasksExecutor(new TaskExecutor([
+        const parallelExecutorWithArguments = new ParallelTasksExecutor([
             '-h',
             'force'
-        ]));
+        ]);
         const myTask: Task = {
             type: 'parallel',
             parallelTasks: [

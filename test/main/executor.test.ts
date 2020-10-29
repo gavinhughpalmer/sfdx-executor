@@ -8,7 +8,7 @@ const expect = chai.expect;
 
 describe('Executor', () => {
     it('Should throw an exception for an unsupported task', () => {
-        const taskExecutor = new TaskExecutor();
+        const taskExecutor = new TaskExecutor([]);
         const fakeTask: Task = {
             type: 'a fake type',
             command: 'a fake command',
@@ -18,7 +18,7 @@ describe('Executor', () => {
     });
 
     it('Should throw an exception for an unsupported command', async () => {
-        const taskExecutor = new TaskExecutor();
+        const taskExecutor = new TaskExecutor([]);
         const fakeTask: Task = {
             type: 'fs',
             command: 'a fake command',
