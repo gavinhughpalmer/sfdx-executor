@@ -9,6 +9,11 @@ This SFDX plugin is designed to execure series of SFDX commands sequentially, in
 [![Downloads/week](https://img.shields.io/npm/dw/sfdx-executor.svg)](https://npmjs.org/package/sfdx-executor)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+<!-- toc -->
+* [Plan Files](#plan-files)
+* [Debugging your plugin](#debugging-your-plugin)
+<!-- tocstop -->
+
 # Plan Files
 The SFDX Executor plugin works from plan files, these are defined in a json format and contain the list of tasks that should be executed when running the command. A simple example is highlighted below which creates a scratch org, pushes the metadata to it and assigns a permission set to the user created.
 
@@ -58,10 +63,6 @@ The "finally" attribute within a plan file accepts a task object, this will be e
 ### Rerunning
 If a failure does occur midway through executing, the command can be rerun from the point of failure by using the --resume (-r) attribute, and passing in the item of the list that it should start from (note parallel tasks count as 1 task). This will be output to the terminal in case of failure.
 
-<!-- toc -->
-* [Plan Files](#plan-files)
-* [Debugging your plugin](#debugging-your-plugin)
-<!-- tocstop -->
 <!-- install -->
 <!-- usage -->
 ```sh-session
