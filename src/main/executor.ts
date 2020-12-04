@@ -5,7 +5,7 @@ import { NotYetSupportedError, Task, TaskExecutionError } from './task';
 import { replaceAll } from './utilities';
 
 export class TaskExecutor {
-    private static argumentPlaceholder = /\$\{(\d+)\}/; // looks for ${0} in the arguments
+    private static argumentPlaceholder = /\$\{([0-9a-zA-Z_]+)\}/; // looks for ${0} in the arguments
     private taskExecutors = {
         parallel: null,
         sfdx: resolveSfdxTask,
@@ -34,16 +34,14 @@ export class TaskExecutor {
 
     private replaceArguments(command: string): string {
         let argumentPlaceholders = TaskExecutor.argumentPlaceholder.exec(command);
-        if ((!Array.isArray(this.inputArguments) || !this.inputArguments.length) && argumentPlaceholders) {
-            throw new Error('No arguments have been provided when they have been defined in the command');
-        }
         while (argumentPlaceholders !== null) {
             const replacement = argumentPlaceholders[0];
-            const argument = this.inputArguments[argumentPlaceholders[1]];
+            // If its a number assume it was passed in as an argument, if not assume its an environment variable
+            const argument = isNaN(Number(argumentPlaceholders[1])) ? process.env[argumentPlaceholders[1]] : this.inputArguments[argumentPlaceholders[1]];
             if (!!argument) {
                 command = replaceAll(command, replacement, argument);
             } else {
-                throw new Error('The value to be replaced in the command has not been provided in the arguments');
+                throw new Error('The value to be replaced in the command has not been provided in the arguments or as an environment variable');
             }
             argumentPlaceholders = TaskExecutor.argumentPlaceholder.exec(command);
         }

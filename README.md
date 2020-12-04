@@ -46,7 +46,7 @@ Tasks can be split into 3 main types, those are:
 3. Parallel - This is a special form of tasks which actually acceps a new list of tasks in the field "parallelTasks", this will then execute the tasks in parallel (using `Promise.all()`).
 
 ## Attributes
-Attributes can be used in the "command" section of a tasks, this will then be swapped out at execution time for the value that is passed into the --attributes (-a) parameter in the command line. This parameter will accept a comma seperated list. The attributes should be entered into the "command" in the form ${x}, where x is a number representing the index in the attributes array that is passed in.
+Attributes can be used in the "command" section of a tasks, this will then be swapped out at execution time for the value that is passed into the --attributes (-a) parameter in the command line. This parameter will accept a comma seperated list. The attributes should be entered into the "command" in the form ${x}, where x is a number representing the index in the attributes array that is passed in. Attributes can also be included within the command in the form of an environment variable, the script will then replace the values when it executes.
 
 ## Error Handling
 There are a few options for handling and recovering from errors built into the plugin, which will be detailed more below.
@@ -86,12 +86,12 @@ This command allows a series of SFDX commands to be scripted without the need fo
 
 ```
 USAGE
-  $ sfdx executor:run -p <string> -c <string> [-a <array>] [-r <number>] [-t] [--json] [--loglevel 
+  $ sfdx executor:run -p <string> -c <string> [-a <array>] [-r <number>] [-t] [--json] [--loglevel
   trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]
 
 OPTIONS
   -a, --arguments=arguments
-      An array of the elements that you wish to pass into the command being executed, the values will then be entered in 
+      An array of the elements that you wish to pass into the command being executed, the values will then be entered in
       by their index of the array into the number (eg ${1}) within the tasks in the plan file
 
   -c, --command=command
@@ -104,7 +104,7 @@ OPTIONS
       Flag to allow for a command execution to resume part way along the processing
 
   -t, --includetimestamp
-      This flag will include a timestamp in the execution of each of the commands, this can be helpful with profiling a 
+      This flag will include a timestamp in the execution of each of the commands, this can be helpful with profiling a
       series of command executions. This is logged in milliseconds since epoch
 
   --json

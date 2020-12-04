@@ -76,12 +76,12 @@ export default class Executor extends SfdxCommand {
     private async getCommand(): Promise<Command> {
         const planFileExists = await fs.fileExists(this.flags.planfile);
         if (!planFileExists) {
-            throw new SfdxError(messages.getMessage('planFileMissingError'));
+            throw new SfdxError(messages.getMessage('planFileMissingError') + this.flags.planfile);
         }
         const planFile = await fs.readJson(this.flags.planfile);
         const planHasCommand = planFile.hasOwnProperty(this.flags.command);
         if (!planHasCommand) {
-            throw new SfdxError(messages.getMessage('commandPlanMissingError'));
+            throw new SfdxError(messages.getMessage('commandPlanMissingError') + this.flags.command);
         }
         const command = planFile[this.flags.command];
         if (!Array.isArray(command.tasks) || !command.tasks.length) {
