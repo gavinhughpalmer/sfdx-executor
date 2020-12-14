@@ -20,11 +20,56 @@ jobs:
       - run:
           name: Testing
           command: yarn test
-
-# TODO Publish to NPM on push to master...
+  publish-npm:
+    docker:
+      - image: node:latest
+    working_directory: ~/cli
+    steps:
+      - checkout
+      - restore_cache: *restore_cache
+      - run:
+          name: Login to NPM
+          command: npm login #Login...
+      - run:
+          name: Publish Patch
+          # Check if we can do it (ie if there isn't a tag on the commit or if the tag doesn't match the one in the repo)
+          command: yarn version --patch
+  publish-docker:
+    docker:
+      - image: docker:latest
+    steps:
+      - checkout
+      - run:
+          name: Login
+          command: docker login --username $DOCKER_HUB_USERNAME --password $DOCKER_HUB_PASSWORD
+      - run:
+          name: Build Docker Image
+          command: docker build -t ghpalmer/sfdx-executor:$(yarn info sfdx-executor version --silent) .
+      - run:
+          name: Build Docker Image
+          command: docker push ghpalmer/sfdx-executor:$(yarn info sfdx-executor version --silent)
 
 workflows:
   version: 2
-  "sfdx-executor":
+  run_tests:
     jobs:
-      - run-tests
+      - run-tests:
+            filters:
+              branches:
+                ignore:
+                  - master
+  publish:
+    jobs:
+      - publish-npm:
+            filters:
+              branches:
+                only:
+                  - master
+      - publish-docker:
+            requires:
+              - publish-npm
+            filters:
+              branches:
+                only:
+                  - master
+
