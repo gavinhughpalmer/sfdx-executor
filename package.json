@@ -1,7 +1,7 @@
 {
   "name": "sfdx-executor",
   "description": "This SFDX plugin is designed to execure series of SFDX commands sequentially, in a cross platform way, to eliminate the need for multiple script files in a repository for series of repeatable taks",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "author": "Gavin Palmer",
   "bugs": "https://github.com/gavinhughpalmer/sfdx-executor/issues",
   "dependencies": {
@@ -14,7 +14,7 @@
   },
   "devDependencies": {
     "@oclif/dev-cli": "1.26.0",
-    "@oclif/plugin-help": "3.2.0",
+    "@oclif/plugin-help": "3.2.1",
     "@oclif/test": "1.2.8",
     "@salesforce/dev-config": "1.6.0",
     "@salesforce/ts-sinon": "1.2.3",
