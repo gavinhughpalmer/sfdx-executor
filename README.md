@@ -70,7 +70,7 @@ $ npm install -g sfdx-executor
 $ sfdx COMMAND
 running command...
 $ sfdx (-v|--version|version)
-sfdx-executor/1.4.4 darwin-x64 node-v14.13.0
+sfdx-executor/1.5.0 darwin-x64 node-v14.13.0
 $ sfdx --help [COMMAND]
 USAGE
   $ sfdx COMMAND
@@ -86,12 +86,12 @@ This command allows a series of SFDX commands to be scripted without the need fo
 
 ```
 USAGE
-  $ sfdx executor:run -p <string> -c <string> [-a <array>] [-r <number>] [-t] [--json] [--loglevel
+  $ sfdx executor:run -p <string> -c <string> [-a <array>] [-r <number>] [-t] [--json] [--loglevel 
   trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]
 
 OPTIONS
   -a, --arguments=arguments
-      An array of the elements that you wish to pass into the command being executed, the values will then be entered in
+      An array of the elements that you wish to pass into the command being executed, the values will then be entered in 
       by their index of the array into the number (eg ${1}) within the tasks in the plan file
 
   -c, --command=command
@@ -104,7 +104,7 @@ OPTIONS
       Flag to allow for a command execution to resume part way along the processing
 
   -t, --includetimestamp
-      This flag will include a timestamp in the execution of each of the commands, this can be helpful with profiling a
+      This flag will include a timestamp in the execution of each of the commands, this can be helpful with profiling a 
       series of command executions. This is logged in milliseconds since epoch
 
   --json
@@ -120,7 +120,7 @@ EXAMPLE
      Finished!
 ```
 
-_See code: [lib/commands/executor/run.js](https://github.com/gavinhughpalmer/sfdx-executor/blob/v1.4.4/lib/commands/executor/run.js)_
+_See code: [lib/commands/executor/run.js](https://github.com/gavinhughpalmer/sfdx-executor/blob/v1.5.0/lib/commands/executor/run.js)_
 <!-- commandsstop -->
 <!-- debugging-your-plugin -->
 # Debugging your plugin
