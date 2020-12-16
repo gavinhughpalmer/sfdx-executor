@@ -30,6 +30,42 @@ describe('Resolve File System Tasks', () => {
         return expect(fs.readFile('theTestFile.txt', 'utf8')).to.eventually.be.fulfilled.and.equal('This is some file changed-contents');
     });
 
+    it('Should replace the file contents, with quoted source', async () => {
+        mock({
+            'theTestFile.txt': 'This is some file contents and something else'
+        });
+        const myTask: Task = {
+            type: 'fs',
+            command: "replace 'contents and something else' with changed-contents in theTestFile.txt",
+            index: 0
+        };
+        await resolveFsTask(myTask);
+        return expect(fs.readFile('theTestFile.txt', 'utf8')).to.eventually.be.fulfilled.and.equal('This is some file changed-contents');
+    });
+
+    it('Should replace the file contents, with quoted target', async () => {
+        const myTask: Task = {
+            type: 'fs',
+            command: "replace contents with 'changed contents' in theTestFile.txt",
+            index: 0
+        };
+        await resolveFsTask(myTask);
+        return expect(fs.readFile('theTestFile.txt', 'utf8')).to.eventually.be.fulfilled.and.equal('This is some file changed contents');
+    });
+
+    it('Should replace the file contents, with quoted filePath', async () => {
+        mock({
+            'the Test File.txt': 'This is some file contents'
+        });
+        const myTask: Task = {
+            type: 'fs',
+            command: "replace contents with changed-contents in 'the Test File.txt'",
+            index: 0
+        };
+        await resolveFsTask(myTask);
+        return expect(fs.readFile('the Test File.txt', 'utf8')).to.eventually.be.fulfilled.and.equal('This is some file changed-contents');
+    });
+
     it('Should error when replace has incorrect keywords', () => {
         const myTask: Task = {
             type: 'fs',

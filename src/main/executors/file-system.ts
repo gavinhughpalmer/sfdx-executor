@@ -2,45 +2,55 @@ import { fs } from '@salesforce/core';
 import { NotYetSupportedError, Task } from '../task';
 import { replaceAll } from '../utilities';
 
-const incorrectNumberOfVerbs = 'The incorrect number of terms has been used for the keyword';
-
-async function replace(verbs: string[]): Promise<void> {
-    if (verbs.length !== 6) {
-        throw new Error(incorrectNumberOfVerbs);
-    }
-    let fileContents = await fs.readFile(verbs[5], 'utf8');
-    fileContents = replaceAll(fileContents, verbs[1], verbs[3]);
-    await fs.writeFile(verbs[5], fileContents);
+async function replace(lexer: Lexer): Promise<void> {
+    const term = lexer.getNextToken();
+    lexer.getNextToken(); // with
+    const replacement = lexer.getNextToken();
+    lexer.getNextToken(); // in
+    const filePath = lexer.getNextToken();
+    endInput(lexer);
+    let fileContents = await fs.readFile(filePath.value, 'utf8');
+    fileContents = replaceAll(fileContents, term.value, replacement.value);
+    await fs.writeFile(filePath.value, fileContents);
 }
 
-async function move(verbs: string[]): Promise<void> {
-    if (verbs.length !== 4) {
-        throw new Error(incorrectNumberOfVerbs);
-    }
-    const contents = await fs.readFile(verbs[1], 'utf8');
-    await fs.writeFile(verbs[3], contents);
-    await fs.unlink(verbs[1]);
+async function move(lexer: Lexer): Promise<void> {
+    const fromLocation = lexer.getNextToken();
+    lexer.getNextToken(); // to
+    const toLocation = lexer.getNextToken();
+    endInput(lexer);
+    const contents = await fs.readFile(fromLocation.value, 'utf8');
+    await fs.writeFile(toLocation.value, contents);
+    await fs.unlink(fromLocation.value);
 }
 
-async function deleteFile(verbs: string[]): Promise<void> {
-    if (verbs.length !== 2) {
-        throw new Error(incorrectNumberOfVerbs);
-    }
-    await fs.unlink(verbs[1]);
+async function deleteFile(lexer: Lexer): Promise<void> {
+    const fileName = lexer.getNextToken(); // TODO do we need to validate the input type
+    endInput(lexer);
+    await fs.unlink(fileName.value);
 }
 
-async function append(verbs: string[]): Promise<void> {
-    if (verbs.length !== 4) {
-        throw new Error(incorrectNumberOfVerbs);
-    }
-    await fs.writeFile(verbs[3], verbs[1], {flag: 'a'});
+async function append(lexer: Lexer): Promise<void> {
+    const content = lexer.getNextToken();
+    lexer.getNextToken(); // to
+    const filePath = lexer.getNextToken();
+    endInput(lexer);
+    await fs.writeFile(filePath.value, content.value, {flag: 'a'});
 }
 
-async function write(verbs: string[]): Promise<void> {
-    if (verbs.length !== 4) {
-        throw new Error(incorrectNumberOfVerbs);
+async function write(lexer: Lexer): Promise<void> {
+    const content = lexer.getNextToken();
+    lexer.getNextToken(); // to
+    const filePath = lexer.getNextToken();
+    endInput(lexer);
+    await fs.writeFile(filePath.value, content.value);
+}
+
+function endInput(lexer: Lexer) {
+    const endOfInput = lexer.getNextToken();
+    if (endOfInput.type !== TokenType.EoF) {
+        throw new Error(`Expected end of input, recieved ${endOfInput.value}`);
     }
-    await fs.writeFile(verbs[3], verbs[1]);
 }
 
 const functions = {
@@ -55,10 +65,74 @@ export function resolveFsTask(task: Task): Promise<void> {
     if (!task.command) {
         return Promise.reject('The command must be specifid for a file system type task');
     }
-    const verbs = task.command.split(' ');
-    if (!(verbs[0] in functions)) {
-        throw new NotYetSupportedError(`The function ${verbs[0]} is not supported`);
+    return excute(task.command);
+}
+
+async function excute(command: string): Promise<void> {
+    const lexer = new Lexer(command);
+    const functionToken = lexer.getNextToken();
+    if (functionToken.type === TokenType.EoF) {
+        throw new Error('Unexpected end of input');
     }
-    const functionCall = functions[verbs[0]];
-    return functionCall(verbs);
+    if (!functions.hasOwnProperty(functionToken.value)) {
+        throw new NotYetSupportedError(`The function ${functionToken.value} is not supported`);
+    }
+    const functionCall = functions[functionToken.value];
+    return functionCall(lexer);
+}
+
+class Lexer {
+    private static quoteChar = "'";
+    private static splitChar = ' ';
+    private splitText: string[];
+    private wordPosition: number;
+    private currentWord: string;
+
+    public constructor(text: string) {
+        this.splitText = text.split(Lexer.splitChar);
+        this.currentWord = this.getCurrentWord();
+    }
+
+    public getNextToken(): Token {
+        this.advance();
+        while (this.currentWord != null) {
+            if (this.currentWord.startsWith(Lexer.quoteChar)) {
+                return { type: TokenType.Term, value: this.findFullTerm() };
+            }
+            return { type: TokenType.Term, value: this.currentWord };
+        }
+        return { type: TokenType.EoF, value: null };
+    }
+
+    private getCurrentWord(): string {
+        return this.splitText[this.wordPosition];
+    }
+
+    private findFullTerm(): string {
+        let fullTerm = this.currentWord.substring(1, this.currentWord.length);
+        while (this.currentWord !== null && !this.currentWord.endsWith(Lexer.quoteChar)) {
+            this.advance();
+            fullTerm += Lexer.splitChar + this.currentWord;
+        }
+        return fullTerm.substring(0, fullTerm.length - 1);
+    }
+
+    private advance() {
+        this.wordPosition = this.wordPosition !== undefined ? this.wordPosition + 1 : 0;
+        if (this.wordPosition >= this.splitText.length) {
+            this.currentWord = null;
+        } else {
+            this.currentWord = this.getCurrentWord();
+        }
+    }
+}
+
+interface Token {
+    type: TokenType;
+    // tslint:disable-next-line:no-any
+    value: any;
+}
+enum TokenType {
+    Term,
+    EoF
 }

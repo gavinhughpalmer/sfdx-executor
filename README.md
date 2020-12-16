@@ -37,7 +37,7 @@ The name of the object (ie "createScratch" in the above instance), is what shoul
 ## Tasks
 Tasks can be split into 3 main types, those are:
 1. SFDX - These are designed to execute SFDX commands, this can be from the base SFDX package, or any plugins that are installed (or even nested executor:run commands). To add these in the type field should be set to "sfdx" and then the "command" should contain the rest of the command (ie excluding the sfdx at the front).
-2. File System - These are for manipulating the file system, for example replacing ids before deploying to an environment. There are 5 main commands which can be executed here (*Note: currently spaces are not supported in any of the terms of file paths, regardless of escaping*):
+2. File System - These are for manipulating the file system, for example replacing ids before deploying to an environment. There are 5 main commands which can be executed here (*Note: spaces can be supported in the terms or file path, if the terms are wrapped in single quotes*):
    1. replace - Replaces all instances of a string in a file, written in the form `replace term with other term in my/file/path`
    2. delete - Deletes a file, written in the form `delete my/file/path`
    3. move - Moves a file to a new location, written in the form `move my/first/file/path to my/new/file/path`
@@ -86,12 +86,12 @@ This command allows a series of SFDX commands to be scripted without the need fo
 
 ```
 USAGE
-  $ sfdx executor:run -p <string> -c <string> [-a <array>] [-r <number>] [-t] [--json] [--loglevel 
+  $ sfdx executor:run -p <string> -c <string> [-a <array>] [-r <number>] [-t] [--json] [--loglevel
   trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]
 
 OPTIONS
   -a, --arguments=arguments
-      An array of the elements that you wish to pass into the command being executed, the values will then be entered in 
+      An array of the elements that you wish to pass into the command being executed, the values will then be entered in
       by their index of the array into the number (eg ${1}) within the tasks in the plan file
 
   -c, --command=command
@@ -104,7 +104,7 @@ OPTIONS
       Flag to allow for a command execution to resume part way along the processing
 
   -t, --includetimestamp
-      This flag will include a timestamp in the execution of each of the commands, this can be helpful with profiling a 
+      This flag will include a timestamp in the execution of each of the commands, this can be helpful with profiling a
       series of command executions. This is logged in milliseconds since epoch
 
   --json

@@ -50,6 +50,7 @@ export default class Executor extends SfdxCommand {
             }
         } catch (error) {
             errorMessage = error.message;
+            this.ux.log(errorMessage);
             if (error instanceof TaskExecutionError) {
                 const terminalCommand = `sfdx executor:run -p ${this.flags.planfile} -c ${this.flags.command} ${this.flags.arguments ? ' -a ' + this.flags.arguments : ''}`;
                 this.ux.log(`
