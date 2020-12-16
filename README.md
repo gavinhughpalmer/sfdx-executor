@@ -1,7 +1,7 @@
 sfdx-executor
 =============
 
-This SFDX plugin is designed to execure series of SFDX commands sequentially, in a cross platform way, to eliminate the need for multiple script files in a repository for series of repeatable taks.
+This SFDX plugin is designed to execure series of SFDX commands sequentially, in a cross platform way, to eliminate the need for multiple script files in a repository for series of repeatable taks. This can be implemented to run CI tasks, or to run repeatable setup tasks for creating scratch orgs.
 
 [![Version](https://img.shields.io/npm/v/sfdx-executor.svg)](https://npmjs.org/package/sfdx-executor)
 [![CircleCI](https://circleci.com/gh/gavinhughpalmer/sfdx-executor/tree/master.svg?style=svg)](https://circleci.com/gh/gavinhughpalmer/sfdx-executor/tree/master)
@@ -86,12 +86,12 @@ This command allows a series of SFDX commands to be scripted without the need fo
 
 ```
 USAGE
-  $ sfdx executor:run -p <string> -c <string> [-a <array>] [-r <number>] [-t] [--json] [--loglevel 
+  $ sfdx executor:run -p <string> -c <string> [-a <array>] [-r <number>] [-t] [--json] [--loglevel
   trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]
 
 OPTIONS
   -a, --arguments=arguments
-      An array of the elements that you wish to pass into the command being executed, the values will then be entered in 
+      An array of the elements that you wish to pass into the command being executed, the values will then be entered in
       by their index of the array into the number (eg ${1}) within the tasks in the plan file
 
   -c, --command=command
@@ -104,7 +104,7 @@ OPTIONS
       Flag to allow for a command execution to resume part way along the processing
 
   -t, --includetimestamp
-      This flag will include a timestamp in the execution of each of the commands, this can be helpful with profiling a 
+      This flag will include a timestamp in the execution of each of the commands, this can be helpful with profiling a
       series of command executions. This is logged in milliseconds since epoch
 
   --json
