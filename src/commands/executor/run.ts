@@ -17,7 +17,7 @@ export default class Executor extends SfdxCommand {
   Executing Create Scratch Command...
   Executing force:org:create...
   Finished!
-  `,
+  `
     ];
 
     public static args = [{ name: 'file' }];
@@ -26,20 +26,20 @@ export default class Executor extends SfdxCommand {
         planfile: flags.string({
             char: 'p',
             description: messages.getMessage('planFileFlagDescription'),
-            required: true,
+            required: true
         }),
         command: flags.string({
             char: 'c',
             description: messages.getMessage('planCommandFlagDescription'),
-            required: true,
+            required: true
         }),
         arguments: flags.array({ char: 'a', description: messages.getMessage('argumentsFlagDescription') }),
         resume: flags.number({ char: 'r', description: messages.getMessage('resumeFlagDescription'), default: 0 }),
         includetimestamp: flags.boolean({
             char: 't',
             description: messages.getMessage('includeTimestampDescription'),
-            default: false,
-        }),
+            default: false
+        })
     };
 
     protected static requiresUsername = false;

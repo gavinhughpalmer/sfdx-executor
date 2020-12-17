@@ -12,7 +12,7 @@ describe('Executor', () => {
         const fakeTask: Task = {
             type: 'a fake type',
             command: 'a fake command',
-            index: 0,
+            index: 0
         };
         return expect(taskExecutor.execute(fakeTask)).to.be.rejectedWith(NotYetSupportedError);
     });
@@ -22,7 +22,7 @@ describe('Executor', () => {
         const fakeTask: Task = {
             type: 'fs',
             command: 'a fake command',
-            index: 0,
+            index: 0
         };
         return expect(taskExecutor.execute(fakeTask))
             .to.eventually.be.rejected.and.be.an.instanceOf(TaskExecutionError)
@@ -37,7 +37,7 @@ describe('Executor', () => {
         const fakeTask: Task = {
             type: 'fs',
             command: '${0}-${1}',
-            index: 0,
+            index: 0
         };
         try {
             await taskExecutor.execute(fakeTask);
@@ -55,7 +55,7 @@ describe('Executor', () => {
         const fakeTask: Task = {
             type: 'sfdx',
             command: 'force -h',
-            index: 0,
+            index: 0
         };
         return expect(taskExecutor.execute(fakeTask)).to.eventually.be.fulfilled;
     });
@@ -68,7 +68,7 @@ describe('Executor', () => {
         const fakeTask: Task = {
             type: 'fs',
             command: '${2}',
-            index: 0,
+            index: 0
         };
         return expect(taskExecutor.execute(fakeTask)).to.eventually.be.rejected;
     });
@@ -78,7 +78,7 @@ describe('Executor', () => {
         const fakeTask: Task = {
             type: 'fs',
             command: '${0}',
-            index: 0,
+            index: 0
         };
         return expect(taskExecutor.execute(fakeTask)).to.eventually.be.rejected;
     });

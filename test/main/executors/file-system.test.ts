@@ -11,7 +11,7 @@ const expect = chai.expect;
 describe('Resolve File System Tasks', () => {
     beforeEach(() => {
         mock({
-            'theTestFile.txt': 'This is some file contents',
+            'theTestFile.txt': 'This is some file contents'
         });
     });
 
@@ -23,26 +23,26 @@ describe('Resolve File System Tasks', () => {
         const myTask: Task = {
             type: 'fs',
             command: 'replace contents with changed-contents in theTestFile.txt',
-            index: 0,
+            index: 0
         };
         await resolveFsTask(myTask);
         return expect(fs.readFile('theTestFile.txt', 'utf8')).to.eventually.be.fulfilled.and.equal(
-            'This is some file changed-contents',
+            'This is some file changed-contents'
         );
     });
 
     it('Should replace the file contents, with quoted source', async () => {
         mock({
-            'theTestFile.txt': 'This is some file contents and something else',
+            'theTestFile.txt': 'This is some file contents and something else'
         });
         const myTask: Task = {
             type: 'fs',
             command: "replace 'contents and something else' with changed-contents in theTestFile.txt",
-            index: 0,
+            index: 0
         };
         await resolveFsTask(myTask);
         return expect(fs.readFile('theTestFile.txt', 'utf8')).to.eventually.be.fulfilled.and.equal(
-            'This is some file changed-contents',
+            'This is some file changed-contents'
         );
     });
 
@@ -50,26 +50,26 @@ describe('Resolve File System Tasks', () => {
         const myTask: Task = {
             type: 'fs',
             command: "replace contents with 'changed contents' in theTestFile.txt",
-            index: 0,
+            index: 0
         };
         await resolveFsTask(myTask);
         return expect(fs.readFile('theTestFile.txt', 'utf8')).to.eventually.be.fulfilled.and.equal(
-            'This is some file changed contents',
+            'This is some file changed contents'
         );
     });
 
     it('Should replace the file contents, with quoted filePath', async () => {
         mock({
-            'the Test File.txt': 'This is some file contents',
+            'the Test File.txt': 'This is some file contents'
         });
         const myTask: Task = {
             type: 'fs',
             command: "replace contents with changed-contents in 'the Test File.txt'",
-            index: 0,
+            index: 0
         };
         await resolveFsTask(myTask);
         return expect(fs.readFile('the Test File.txt', 'utf8')).to.eventually.be.fulfilled.and.equal(
-            'This is some file changed-contents',
+            'This is some file changed-contents'
         );
     });
 
@@ -77,7 +77,7 @@ describe('Resolve File System Tasks', () => {
         const myTask: Task = {
             type: 'fs',
             command: 'replace some contents with some other contents',
-            index: 0,
+            index: 0
         };
         return expect(resolveFsTask(myTask)).to.eventually.be.rejected;
     });
@@ -86,7 +86,7 @@ describe('Resolve File System Tasks', () => {
         const myTask: Task = {
             type: 'fs',
             command: 'move theTestFile.txt to theNewTestFile.txt',
-            index: 0,
+            index: 0
         };
         await resolveFsTask(myTask);
         // should we also check the old file is removed?
@@ -97,7 +97,7 @@ describe('Resolve File System Tasks', () => {
         const myTask: Task = {
             type: 'fs',
             command: 'move some thing to some thing else',
-            index: 0,
+            index: 0
         };
         return expect(resolveFsTask(myTask)).to.eventually.be.rejected;
     });
@@ -106,7 +106,7 @@ describe('Resolve File System Tasks', () => {
         const myTask: Task = {
             type: 'fs',
             command: 'delete theTestFile.txt',
-            index: 0,
+            index: 0
         };
         await resolveFsTask(myTask);
         return expect(fs.fileExists('theTestFile.txt')).to.eventually.be.fulfilled.and.be.false;
@@ -116,7 +116,7 @@ describe('Resolve File System Tasks', () => {
         const myTask: Task = {
             type: 'fs',
             command: 'delete something and something else',
-            index: 0,
+            index: 0
         };
         return expect(resolveFsTask(myTask)).to.eventually.be.rejected;
     });
@@ -125,11 +125,11 @@ describe('Resolve File System Tasks', () => {
         const myTask: Task = {
             type: 'fs',
             command: 'append something-else to theTestFile.txt',
-            index: 0,
+            index: 0
         };
         await resolveFsTask(myTask);
         return expect(fs.readFile('theTestFile.txt', 'utf8')).to.eventually.be.fulfilled.and.equal(
-            'This is some file contentssomething-else',
+            'This is some file contentssomething-else'
         );
     });
 
@@ -137,11 +137,11 @@ describe('Resolve File System Tasks', () => {
         const myTask: Task = {
             type: 'fs',
             command: 'append \nsomething-else to theTestFile.txt',
-            index: 0,
+            index: 0
         };
         await resolveFsTask(myTask);
         return expect(fs.readFile('theTestFile.txt', 'utf8')).to.eventually.be.fulfilled.and.equal(
-            'This is some file contents\nsomething-else',
+            'This is some file contents\nsomething-else'
         );
     });
 
@@ -149,7 +149,7 @@ describe('Resolve File System Tasks', () => {
         const myTask: Task = {
             type: 'fs',
             command: 'append something and something else',
-            index: 0,
+            index: 0
         };
         return expect(resolveFsTask(myTask)).to.eventually.be.rejected;
     });
@@ -158,7 +158,7 @@ describe('Resolve File System Tasks', () => {
         const myTask: Task = {
             type: 'fs',
             command: 'write something-else to theTestFile.txt',
-            index: 0,
+            index: 0
         };
         await resolveFsTask(myTask);
         return expect(fs.readFile('theTestFile.txt', 'utf8')).to.eventually.be.fulfilled.and.equal('something-else');
@@ -168,7 +168,7 @@ describe('Resolve File System Tasks', () => {
         const myTask: Task = {
             type: 'fs',
             command: 'write something and something else',
-            index: 0,
+            index: 0
         };
         return expect(resolveFsTask(myTask)).to.eventually.be.rejected;
     });
@@ -176,7 +176,7 @@ describe('Resolve File System Tasks', () => {
     it('should error for without a command specified', () => {
         const myTask: Task = {
             type: 'fs',
-            index: 0,
+            index: 0
         };
         return expect(resolveFsTask(myTask)).to.eventually.be.rejected;
     });

@@ -9,7 +9,7 @@ export class TaskExecutor {
     private taskExecutors = {
         parallel: null,
         sfdx: resolveSfdxTask,
-        fs: resolveFsTask,
+        fs: resolveFsTask
     };
 
     private inputArguments: string[];
@@ -44,7 +44,7 @@ export class TaskExecutor {
                 command = replaceAll(command, replacement, argument);
             } else {
                 throw new Error(
-                    'The value to be replaced in the command has not been provided in the arguments or as an environment variable',
+                    'The value to be replaced in the command has not been provided in the arguments or as an environment variable'
                 );
             }
             argumentPlaceholders = TaskExecutor.argumentPlaceholder.exec(command);

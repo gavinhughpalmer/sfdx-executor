@@ -41,7 +41,7 @@ describe('executor:run', () => {
             '--command',
             'planWithArguments',
             '--arguments',
-            argumentToReplace,
+            argumentToReplace
         ])
         .it('runs Plan With Arguments', (ctx) => {
             expect(ctx.stdout).to.contain(argumentToReplace);
@@ -64,7 +64,7 @@ describe('executor:run', () => {
             '--command',
             'planWithMultipleArguments',
             '--arguments',
-            `${firstArgument},${secondArgument}`,
+            `${firstArgument},${secondArgument}`
         ])
         .it('runs Plan With Multiple Arguments', (ctx) => {
             expect(ctx.stdout).to.contain(firstArgument);

@@ -58,7 +58,7 @@ const functions = {
     move,
     delete: deleteFile,
     append,
-    write,
+    write
 };
 
 export function resolveFsTask(task: Task): Promise<void> {
@@ -134,5 +134,5 @@ interface Token {
 }
 enum TokenType {
     Term,
-    EoF,
+    EoF
 }
