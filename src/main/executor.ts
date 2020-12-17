@@ -5,14 +5,14 @@ import { NotYetSupportedError, Task, TaskExecutionError } from './task';
 import { replaceAll } from './utilities';
 
 export class TaskExecutor {
-    private static argumentPlaceholder = /\$\{([0-9a-zA-Z_]+)\}/; // looks for ${0} in the arguments
-    private taskExecutors = {
+    private static readonly argumentPlaceholder = /\$\{([0-9a-zA-Z_]+)\}/; // looks for ${0} in the arguments
+    private readonly taskExecutors = {
         parallel: null,
         sfdx: resolveSfdxTask,
         fs: resolveFsTask
     };
 
-    private inputArguments: string[];
+    private readonly inputArguments: string[];
 
     constructor(inputArguments: string[]) {
         this.inputArguments = inputArguments || [];
@@ -49,6 +49,7 @@ export class TaskExecutor {
             }
             argumentPlaceholders = TaskExecutor.argumentPlaceholder.exec(command);
         }
+
         return command;
     }
 }

@@ -101,6 +101,7 @@ export default class Executor extends SfdxCommand {
         if (!Array.isArray(command.tasks) || !command.tasks.length) {
             throw new SfdxError(messages.getMessage('noTasksDefinedError'));
         }
+
         return command;
     }
 

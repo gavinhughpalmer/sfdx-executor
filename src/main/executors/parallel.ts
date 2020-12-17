@@ -2,7 +2,7 @@ import { TaskExecutor } from '../executor';
 import { Task } from '../task';
 
 export class ParallelTasksExecutor {
-    private inputArguments: string[];
+    private readonly inputArguments: string[];
 
     constructor(inputArguments: string[]) {
         this.inputArguments = inputArguments || [];
@@ -22,6 +22,7 @@ export class ParallelTasksExecutor {
             const taskExecutor = new TaskExecutor(this.inputArguments);
             taskList.push(taskExecutor.execute(parallelTask));
         }
+
         // TODO Errors aren't being returned from the parallel execution
         return Promise.all(taskList);
     }

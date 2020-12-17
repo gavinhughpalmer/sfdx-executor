@@ -5,6 +5,7 @@ function replaceAll(value: string, term: string, replacement: string): string {
     if (!term) {
         return value;
     }
+
     return value.split(term).join(replacement || '');
 }
 

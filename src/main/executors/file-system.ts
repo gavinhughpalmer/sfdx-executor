@@ -65,6 +65,7 @@ export function resolveFsTask(task: Task): Promise<void> {
     if (!task.command) {
         return Promise.reject('The command must be specifid for a file system type task');
     }
+
     return excute(task.command);
 }
 
@@ -78,13 +79,14 @@ async function excute(command: string): Promise<void> {
         throw new NotYetSupportedError(`The function ${functionToken.value} is not supported`);
     }
     const functionCall = functions[functionToken.value];
+
     return functionCall(lexer);
 }
 
 class Lexer {
-    private static quoteChar = "'";
-    private static splitChar = ' ';
-    private splitText: string[];
+    private static readonly quoteChar = "'";
+    private static readonly splitChar = ' ';
+    private readonly splitText: string[];
     private wordPosition: number;
     private currentWord: string;
 
@@ -95,12 +97,14 @@ class Lexer {
 
     public getNextToken(): Token {
         this.advance();
-        while (this.currentWord != null) {
+        while (this.currentWord != undefined) {
             if (this.currentWord.startsWith(Lexer.quoteChar)) {
                 return { type: TokenType.Term, value: this.findFullTerm() };
             }
+
             return { type: TokenType.Term, value: this.currentWord };
         }
+
         return { type: TokenType.EoF, value: null };
     }
 
@@ -114,6 +118,7 @@ class Lexer {
             this.advance();
             fullTerm += Lexer.splitChar + this.currentWord;
         }
+
         return fullTerm.substring(0, fullTerm.length - 1);
     }
 
