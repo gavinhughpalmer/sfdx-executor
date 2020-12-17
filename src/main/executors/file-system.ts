@@ -35,7 +35,7 @@ async function append(lexer: Lexer): Promise<void> {
     lexer.getNextToken(); // to
     const filePath = lexer.getNextToken();
     endInput(lexer);
-    await fs.writeFile(filePath.value, content.value, {flag: 'a'});
+    await fs.writeFile(filePath.value, content.value, { flag: 'a' });
 }
 
 async function write(lexer: Lexer): Promise<void> {
@@ -58,7 +58,7 @@ const functions = {
     move,
     delete: deleteFile,
     append,
-    write
+    write,
 };
 
 export function resolveFsTask(task: Task): Promise<void> {
@@ -134,5 +134,5 @@ interface Token {
 }
 enum TokenType {
     Term,
-    EoF
+    EoF,
 }

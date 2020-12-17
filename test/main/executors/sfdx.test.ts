@@ -1,5 +1,5 @@
 import * as chai from 'chai';
-import chaiAsPromised = require("chai-as-promised");
+import chaiAsPromised = require('chai-as-promised');
 import { resolveSfdxTask } from '../../../src/main/executors/sfdx';
 import { Task } from '../../../src/main/task';
 
@@ -11,7 +11,7 @@ describe('Resolve SFDX Tasks', () => {
         const myTask: Task = {
             type: 'sfdx',
             command: 'force -h',
-            index: 0
+            index: 0,
         };
         return expect(resolveSfdxTask(myTask)).to.eventually.be.fulfilled;
     });
@@ -19,14 +19,14 @@ describe('Resolve SFDX Tasks', () => {
         const myTask: Task = {
             type: 'sfdx',
             command: 'force:org:create',
-            index: 0
+            index: 0,
         };
         return expect(resolveSfdxTask(myTask)).to.eventually.be.rejected;
     });
     it('should error for without a command specified', () => {
         const myTask: Task = {
             type: 'sfdx',
-            index: 0
+            index: 0,
         };
         return expect(resolveSfdxTask(myTask)).to.eventually.be.rejected;
     });

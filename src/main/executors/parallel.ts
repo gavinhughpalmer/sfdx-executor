@@ -2,7 +2,6 @@ import { TaskExecutor } from '../executor';
 import { Task } from '../task';
 
 export class ParallelTasksExecutor {
-
     private inputArguments: string[];
 
     constructor(inputArguments: string[]) {

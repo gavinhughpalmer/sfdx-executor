@@ -13,9 +13,9 @@ describe('Resolve Parallel Tasks', () => {
             type: 'parallel',
             parallelTasks: [
                 { type: 'sfdx', command: 'force -h' },
-                { type: 'sfdx', command: 'force -h' }
+                { type: 'sfdx', command: 'force -h' },
             ],
-            index: 0
+            index: 0,
         };
         return expect(parallelExecutor.resolveParallelTasks(myTask)).to.eventually.be.fulfilled;
     });
@@ -24,9 +24,9 @@ describe('Resolve Parallel Tasks', () => {
             type: 'parallel',
             parallelTasks: [
                 { type: 'sfdx', command: 'force:alias:set' },
-                { type: 'sfdx', command: 'force -h' }
+                { type: 'sfdx', command: 'force -h' },
             ],
-            index: 0
+            index: 0,
         };
         return expect(parallelExecutor.resolveParallelTasks(myTask)).to.eventually.be.rejected;
     });
@@ -38,33 +38,30 @@ describe('Resolve Parallel Tasks', () => {
                     type: 'parallel',
                     parallelTasks: [
                         { type: 'sfdx', command: 'force -h' },
-                        { type: 'sfdx', command: 'force -h' }
-                    ]
-                }
+                        { type: 'sfdx', command: 'force -h' },
+                    ],
+                },
             ],
-            index: 0
+            index: 0,
         };
         return expect(parallelExecutor.resolveParallelTasks(myTask)).to.eventually.be.rejected;
     });
-    it('should error when parallelTasks aren\'t specified', () => {
+    it("should error when parallelTasks aren't specified", () => {
         const myTask: Task = {
             type: 'parallel',
-            index: 0
+            index: 0,
         };
         return expect(parallelExecutor.resolveParallelTasks(myTask)).to.eventually.be.rejected;
     });
     it('should replace argument placeholders', () => {
-        const parallelExecutorWithArguments = new ParallelTasksExecutor([
-            '-h',
-            'force'
-        ]);
+        const parallelExecutorWithArguments = new ParallelTasksExecutor(['-h', 'force']);
         const myTask: Task = {
             type: 'parallel',
             parallelTasks: [
                 { type: 'sfdx', command: 'force ${0}' },
-                { type: 'sfdx', command: '${1} -h' }
+                { type: 'sfdx', command: '${1} -h' },
             ],
-            index: 0
+            index: 0,
         };
         return expect(parallelExecutorWithArguments.resolveParallelTasks(myTask)).to.eventually.be.fulfilled;
     });

@@ -9,7 +9,7 @@ export class TaskExecutor {
     private taskExecutors = {
         parallel: null,
         sfdx: resolveSfdxTask,
-        fs: resolveFsTask
+        fs: resolveFsTask,
     };
 
     private inputArguments: string[];
@@ -37,11 +37,15 @@ export class TaskExecutor {
         while (argumentPlaceholders !== null) {
             const replacement = argumentPlaceholders[0];
             // If its a number assume it was passed in as an argument, if not assume its an environment variable
-            const argument = isNaN(Number(argumentPlaceholders[1])) ? process.env[argumentPlaceholders[1]] : this.inputArguments[argumentPlaceholders[1]];
+            const argument = isNaN(Number(argumentPlaceholders[1]))
+                ? process.env[argumentPlaceholders[1]]
+                : this.inputArguments[argumentPlaceholders[1]];
             if (!!argument) {
                 command = replaceAll(command, replacement, argument);
             } else {
-                throw new Error('The value to be replaced in the command has not been provided in the arguments or as an environment variable');
+                throw new Error(
+                    'The value to be replaced in the command has not been provided in the arguments or as an environment variable',
+                );
             }
             argumentPlaceholders = TaskExecutor.argumentPlaceholder.exec(command);
         }

@@ -10,7 +10,6 @@ Messages.importMessagesDirectory(__dirname);
 const messages = Messages.loadMessages('sfdx-executor', 'org');
 
 export default class Executor extends SfdxCommand {
-
     public static description = messages.getMessage('commandDescription');
 
     public static examples = [
@@ -18,17 +17,29 @@ export default class Executor extends SfdxCommand {
   Executing Create Scratch Command...
   Executing force:org:create...
   Finished!
-  `
+  `,
     ];
 
     public static args = [{ name: 'file' }];
 
     protected static flagsConfig = {
-        planfile: flags.string({ char: 'p', description: messages.getMessage('planFileFlagDescription'), required: true }),
-        command: flags.string({ char: 'c', description: messages.getMessage('planCommandFlagDescription'), required: true }),
+        planfile: flags.string({
+            char: 'p',
+            description: messages.getMessage('planFileFlagDescription'),
+            required: true,
+        }),
+        command: flags.string({
+            char: 'c',
+            description: messages.getMessage('planCommandFlagDescription'),
+            required: true,
+        }),
         arguments: flags.array({ char: 'a', description: messages.getMessage('argumentsFlagDescription') }),
-        resume: flags.number({ char: 'r', description: messages.getMessage('resumeFlagDescription'), default: 0}),
-        includetimestamp: flags.boolean({ char: 't', description: messages.getMessage('includeTimestampDescription'), default: false})
+        resume: flags.number({ char: 'r', description: messages.getMessage('resumeFlagDescription'), default: 0 }),
+        includetimestamp: flags.boolean({
+            char: 't',
+            description: messages.getMessage('includeTimestampDescription'),
+            default: false,
+        }),
     };
 
     protected static requiresUsername = false;
@@ -52,7 +63,9 @@ export default class Executor extends SfdxCommand {
             errorMessage = error.message;
             this.ux.log(errorMessage);
             if (error instanceof TaskExecutionError) {
-                const terminalCommand = `sfdx executor:run -p ${this.flags.planfile} -c ${this.flags.command} ${this.flags.arguments ? ' -a ' + this.flags.arguments : ''}`;
+                const terminalCommand = `sfdx executor:run -p ${this.flags.planfile} -c ${this.flags.command} ${
+                    this.flags.arguments ? ' -a ' + this.flags.arguments : ''
+                }`;
                 this.ux.log(`
                     An error has occured, you can rerun using "${terminalCommand} --resume ${error.lineNumber}"
                     or if you wish to skip the current command "${terminalCommand} --resume ${error.lineNumber + 1}"
