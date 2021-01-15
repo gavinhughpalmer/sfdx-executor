@@ -97,7 +97,7 @@ class Lexer {
 
     public getNextToken(): Token {
         this.advance();
-        while (this.currentWord != undefined) {
+        while (!!this.currentWord) {
             if (this.currentWord.startsWith(Lexer.quoteChar)) {
                 return { type: TokenType.Term, value: this.findFullTerm() };
             }
