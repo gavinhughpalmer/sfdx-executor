@@ -766,10 +766,10 @@
     mkdirp "1.0.4"
     sfdx-faye "^1.0.9"
 
-"@salesforce/core@2.15.4":
-  version "2.15.4"
-  resolved "https://registry.yarnpkg.com/@salesforce/core/-/core-2.15.4.tgz#b13ba4ce172ad383dbe7ae5065c9dd429b21f313"
-  integrity sha512-h03QJvXGSaJUwLBp+u/nfuuIjvIyTSSj+Lg+lA7mS/k0zWtsD5mYdYvy2wyBthgyNDgOSeTrD/FIPY53zHCKAw==
+"@salesforce/core@2.16.0":
+  version "2.16.0"
+  resolved "https://registry.yarnpkg.com/@salesforce/core/-/core-2.16.0.tgz#ccc42baf2e45b4958a2f544c0257d46ebb02927b"
+  integrity sha512-jZWDOMBGiuKRCBD7UqSHjhpC1e4xVOW6cwURf6Z2LTFzPYHAbv10g+qIOW39Ruit8KloKvpU+v4tZixTPx+0lg==
   dependencies:
     "@salesforce/bunyan" "^2.0.0"
     "@salesforce/kit" "^1.3.3"
