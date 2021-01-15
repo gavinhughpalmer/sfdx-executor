@@ -8634,7 +8634,7 @@ yargs@^15.0.2, yargs@^15.3.1:
     y18n "^4.0.0"
     yargs-parser "^18.1.2"
 
-yarn-audit-fix@^3.2.13:
+yarn-audit-fix@3.2.13:
   version "3.2.13"
   resolved "https://registry.yarnpkg.com/yarn-audit-fix/-/yarn-audit-fix-3.2.13.tgz#aa71a1edca4e688857f15b6b209472dce79d5ddc"
   integrity sha512-yPvdF5+v7MDB+/kqpzLSwxlUMBAIH3n9tadlfVpjDWVQ+KHWGxCW9Gk1fK5I7h960VwdCKeR3L6Ik8uwS8nVCw==
