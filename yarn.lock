@@ -1111,12 +1111,12 @@
     yeoman-environment "2.4.0"
     yeoman-generator "4.0.1"
 
-"@salesforce/ts-sinon@1.2.3":
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/@salesforce/ts-sinon/-/ts-sinon-1.2.3.tgz#9a65bcad7d7811dde7978f33b90f3ed3d13632a4"
-  integrity sha512-zWwNIeoGJM5o4Z6/Vq/Mr1FE0vrA0d0PV22jxljVifWTf0prVaWhVdoS28LFIVYbeT84Y6e5446uOUZqDN9yvg==
+"@salesforce/ts-sinon@1.2.4":
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/@salesforce/ts-sinon/-/ts-sinon-1.2.4.tgz#7c7acfee41f1c5c35ce82c89ff85f1ad73cf888a"
+  integrity sha512-bnv7o1wgT5zeqkWyZH8lYkwbAjw5/AkMcNwS8enrOz+5/Oabm78lhmsOs46YkbrrqKbhOentNRj3sU56/b2fIQ==
   dependencies:
-    "@salesforce/ts-types" "^1.4.3"
+    "@salesforce/ts-types" "^1.4.4"
     sinon "5.1.1"
     tslib "^1.10.0"
 
@@ -1131,6 +1131,13 @@
   version "1.4.3"
   resolved "https://registry.yarnpkg.com/@salesforce/ts-types/-/ts-types-1.4.3.tgz#941ceac6d72a2983ec03d5263b509f25bab574c3"
   integrity sha512-Fdx9KEBalwxBFkP0ZW9uIcndjFys9fm8ma9vItd3EwPZLJcAHWfBa5/y9uHLAvYHkKK8F8FYE0sRrVZ1cn48hw==
+  dependencies:
+    tslib "^1.10.0"
+
+"@salesforce/ts-types@^1.4.4":
+  version "1.4.4"
+  resolved "https://registry.yarnpkg.com/@salesforce/ts-types/-/ts-types-1.4.4.tgz#9a6f885bf9b9882177103f50afb1e8b1b2d5485c"
+  integrity sha512-BKAbzS9PPnhcLibWDFKUFdy2fFchoMhRrnB0Uc0GJ+sGfqw8G3YJIy2JTKP8o8/V2snm1br9fMXV8cZKi62htg==
   dependencies:
     tslib "^1.10.0"
 
