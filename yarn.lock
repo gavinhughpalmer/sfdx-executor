@@ -7339,10 +7339,10 @@ setimmediate@~1.0.4:
   resolved "https://registry.yarnpkg.com/setimmediate/-/setimmediate-1.0.5.tgz#290cbb232e306942d7d7ea9b83732ab7856f8285"
   integrity sha1-KQy7Iy4waULX1+qbg3Mqt4VvgoU=
 
-sfdx-cli@7.86.1:
-  version "7.86.1"
-  resolved "https://registry.yarnpkg.com/sfdx-cli/-/sfdx-cli-7.86.1.tgz#0bfb7840a3e4c18132fe43eba90ca682edd72138"
-  integrity sha512-O5+Uci7+RVDZu95dRSKN534BphhtCHdYTv07ZlZCs+K1MYCtyYzTfaqhq3IbiE3DTSi+hT4/eL1y/3Vihrfj0w==
+sfdx-cli@7.86.2:
+  version "7.86.2"
+  resolved "https://registry.yarnpkg.com/sfdx-cli/-/sfdx-cli-7.86.2.tgz#7ac370c9983881080c598092b36c19fe97bc87d2"
+  integrity sha512-hqrGqTVE1ABHwzPbZCiNYG8fmeabdHdHI4pMh5g6Iv7rAdO+IaNS+rOMKLZ5x2MsrMXZqPRw0lhBUgwW4Q1EXA==
   dependencies:
     "@oclif/command" "^1.6.0"
     "@oclif/config" "^1.15.1"
