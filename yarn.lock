@@ -948,10 +948,10 @@
     open "^7.3.0"
     tslib "^1"
 
-"@salesforce/plugin-config@1.2.3":
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/@salesforce/plugin-config/-/plugin-config-1.2.3.tgz#995f83de379ced8abdfb46793a37bff4c2a76290"
-  integrity sha512-CpsVtAEVqQw+AioFf9S22jvLC3bpryCZs+6Tt+3LgxPXCzSFVcGALWwiRxddooc47HpJylLEg4+oTvd/750EVw==
+"@salesforce/plugin-config@1.2.4":
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/@salesforce/plugin-config/-/plugin-config-1.2.4.tgz#11df3630274b13437d6744960a2cdfbe35bd47f2"
+  integrity sha512-wEDE6cVmjvuDFiW6KO4Kd1domfmnlFrbHoCRNuj2Fst5tv5BEJ0bQz3ftAp932KQS5tFIOBIt8k5iQF5iz7TKA==
   dependencies:
     "@oclif/config" "^1.17.0"
     "@salesforce/command" "^3.0.5"
@@ -7186,10 +7186,10 @@ safe-regex@^1.1.0:
   resolved "https://registry.yarnpkg.com/safer-buffer/-/safer-buffer-2.1.2.tgz#44fa161b0187b9549dd84bb91802f9bd8385cd6a"
   integrity sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==
 
-salesforce-alm@15.16.0:
-  version "15.16.0"
-  resolved "https://registry.yarnpkg.com/salesforce-alm/-/salesforce-alm-15.16.0.tgz#8985edd214970bf55e315b338e762039bc6edd32"
-  integrity sha512-bCOUliPrHr9F3X0htFKC6h0y7bGTvXGCGQLkIIsRjJYkyi7KCV3FPCrtI8imJnxaRFlD04UvBnY+Tr5tgqtilw==
+salesforce-alm@50.16.1:
+  version "50.16.1"
+  resolved "https://registry.yarnpkg.com/salesforce-alm/-/salesforce-alm-50.16.1.tgz#4fb3f54c75e86f7fceb0eba495bea42befcbf637"
+  integrity sha512-siL671T3zYzEMayhzE6u3oFU+ECUFncbmQ3wXSNlI+DdbdtHAF08RL+Gdfag4und5+QlX5SdjmYKHfXIsyqmvQ==
   dependencies:
     "@oclif/config" "^1.14.0"
     "@oclif/errors" "^1.2.2"
@@ -7250,10 +7250,10 @@ salesforce-lightning-cli@3.0.0:
     object-assign "^4.1.1"
     prettier "^1.18.2"
 
-salesforcedx@50.16.0:
-  version "50.16.0"
-  resolved "https://registry.yarnpkg.com/salesforcedx/-/salesforcedx-50.16.0.tgz#ef3cf0cfe8ffa11c4e9291941eba38d618c53a2e"
-  integrity sha512-8KCXToRESe+H7AKl+doq3Tsxkh1NIMPW+YQSBO9uylrPzY/0P/g17tXifq1wYljgT4bznFsWD6TtM+RIoaikwA==
+salesforcedx@50.16.1:
+  version "50.16.1"
+  resolved "https://registry.yarnpkg.com/salesforcedx/-/salesforcedx-50.16.1.tgz#8ce5c46b0cf36ef0fad7ffc15ad0fd7a7c02867f"
+  integrity sha512-HRZ6BPlsKxVO7X00gsW2mCUAYmvG4b3BPzXiRwHhrDRMdflykablUMzWK3HGkK67XooXlGPpdfwSZbnaLjH/mg==
   dependencies:
     "@salesforce/plugin-apex" "0.1.4"
     "@salesforce/plugin-custom-metadata" "1.0.11"
@@ -7262,7 +7262,7 @@ salesforcedx@50.16.0:
     "@salesforce/plugin-templates" "50.4.0"
     "@salesforce/plugin-user" "1.0.11"
     "@salesforce/sfdx-plugin-lwc-test" "0.1.7"
-    salesforce-alm "15.16.0"
+    salesforce-alm "50.16.1"
     salesforce-lightning-cli "3.0.0"
 
 samsam@1.3.0:
@@ -7339,10 +7339,10 @@ setimmediate@~1.0.4:
   resolved "https://registry.yarnpkg.com/setimmediate/-/setimmediate-1.0.5.tgz#290cbb232e306942d7d7ea9b83732ab7856f8285"
   integrity sha1-KQy7Iy4waULX1+qbg3Mqt4VvgoU=
 
-sfdx-cli@7.86.0:
-  version "7.86.0"
-  resolved "https://registry.yarnpkg.com/sfdx-cli/-/sfdx-cli-7.86.0.tgz#5c743ccd16f0cbbc43321e60debdbd71ebcd203c"
-  integrity sha512-cj6Kmjh/a5egpSiqx2HeERFE2cWqXcNgUXz+K9f0KavyFYNp0xpogu7uHvKyIFLNAmCtk3fwi5CES+Bmdbte6Q==
+sfdx-cli@7.86.1:
+  version "7.86.1"
+  resolved "https://registry.yarnpkg.com/sfdx-cli/-/sfdx-cli-7.86.1.tgz#0bfb7840a3e4c18132fe43eba90ca682edd72138"
+  integrity sha512-O5+Uci7+RVDZu95dRSKN534BphhtCHdYTv07ZlZCs+K1MYCtyYzTfaqhq3IbiE3DTSi+hT4/eL1y/3Vihrfj0w==
   dependencies:
     "@oclif/command" "^1.6.0"
     "@oclif/config" "^1.15.1"
@@ -7360,7 +7360,7 @@ sfdx-cli@7.86.0:
     "@salesforce/plugin-alias" "1.1.5"
     "@salesforce/plugin-analytics" "^1.12.1"
     "@salesforce/plugin-auth" "1.4.6"
-    "@salesforce/plugin-config" "1.2.3"
+    "@salesforce/plugin-config" "1.2.4"
     "@salesforce/plugin-generator" "^1.1.0"
     "@salesforce/plugin-telemetry" "1.0.1"
     "@salesforce/require-analytics" "^0.7.0"
@@ -7369,7 +7369,7 @@ sfdx-cli@7.86.0:
     chalk "^2.4.2"
     debug "^3.2.6"
     http-call "^5.2.4"
-    salesforcedx "50.16.0"
+    salesforcedx "50.16.1"
     tslib "^1.10.0"
     v8-compile-cache "^2.0.3"
 
