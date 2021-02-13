@@ -33,7 +33,7 @@
     "sfdx-cli": "7.86.3",
     "ts-node": "9.1.1",
     "tslint": "6.1.3",
-    "yarn-audit-fix": "3.2.15"
+    "yarn-audit-fix": "3.2.16"
   },
   "engines": {
     "node": ">=8.0.0"
