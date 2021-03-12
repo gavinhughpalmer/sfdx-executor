@@ -70,7 +70,7 @@ $ npm install -g sfdx-executor
 $ sfdx COMMAND
 running command...
 $ sfdx (-v|--version|version)
-sfdx-executor/1.5.3 darwin-x64 node-v15.5.1
+sfdx-executor/1.5.4 darwin-x64 node-v15.11.0
 $ sfdx --help [COMMAND]
 USAGE
   $ sfdx COMMAND
@@ -120,7 +120,7 @@ EXAMPLE
      Finished!
 ```
 
-_See code: [lib/commands/executor/run.js](https://github.com/gavinhughpalmer/sfdx-executor/blob/v1.5.3/lib/commands/executor/run.js)_
+_See code: [lib/commands/executor/run.js](https://github.com/gavinhughpalmer/sfdx-executor/blob/v1.5.4/lib/commands/executor/run.js)_
 <!-- commandsstop -->
 <!-- debugging-your-plugin -->
 # Debugging your plugin
