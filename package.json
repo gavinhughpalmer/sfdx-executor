@@ -1,7 +1,7 @@
 {
   "name": "sfdx-executor",
   "description": "This SFDX plugin is designed to execure series of SFDX commands sequentially, in a cross platform way, to eliminate the need for multiple script files in a repository for series of repeatable taks",
-  "version": "1.5.4",
+  "version": "1.5.5",
   "author": "Gavin Palmer",
   "bugs": "https://github.com/gavinhughpalmer/sfdx-executor/issues",
   "dependencies": {
