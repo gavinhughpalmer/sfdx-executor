@@ -9234,10 +9234,10 @@ yargs@^15.0.2, yargs@^15.3.1:
     y18n "^4.0.0"
     yargs-parser "^18.1.2"
 
-yarn-audit-fix@4.1.5:
-  version "4.1.5"
-  resolved "https://registry.yarnpkg.com/yarn-audit-fix/-/yarn-audit-fix-4.1.5.tgz#de9bd836d5f05f7f88e44c20af5b9abed73b91d9"
-  integrity sha512-VLUHSo0PDum84DQn4iM7G4NPy50ik3WfLOdVpFwFz7ZvUpeuSXEPWSOHs8xmO3HtY24JFY6Tq/KDUPJuROmPng==
+yarn-audit-fix@4.1.6:
+  version "4.1.6"
+  resolved "https://registry.yarnpkg.com/yarn-audit-fix/-/yarn-audit-fix-4.1.6.tgz#de6135314b552f0d7165ae8e6aa597a9da818487"
+  integrity sha512-ZOQyyHxl0O+ToSw4P7JVhgx/pp42W5TfgKhYM2j1ZP3+CQ8kxKJttkuXu/oKdCDWJ8zzfuw1cWcKrp+VF9xYAA==
   dependencies:
     "@types/find-cache-dir" "^3.2.0"
     "@types/fs-extra" "^9.0.9"
