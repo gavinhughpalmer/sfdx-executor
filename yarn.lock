@@ -963,18 +963,6 @@
     debug "^4.1.1"
     semver "^7.5.4"
 
-"@oclif/config@1.17.0":
-  version "1.17.0"
-  resolved "https://registry.yarnpkg.com/@oclif/config/-/config-1.17.0.tgz#ba8639118633102a7e481760c50054623d09fcab"
-  integrity sha512-Lmfuf6ubjQ4ifC/9bz1fSCHc6F6E653oyaRXxg+lgT4+bYf9bk+nqrUpAbrXyABkCqgIBiFr3J4zR/kiFdE1PA==
-  dependencies:
-    "@oclif/errors" "^1.3.3"
-    "@oclif/parser" "^3.8.0"
-    debug "^4.1.1"
-    globby "^11.0.1"
-    is-wsl "^2.1.1"
-    tslib "^2.0.0"
-
 "@oclif/config@1.18.16":
   version "1.18.16"
   resolved "https://registry.yarnpkg.com/@oclif/config/-/config-1.18.16.tgz#3235d260ab1eb8388ebb6255bca3dd956249d796"
@@ -982,6 +970,18 @@
   dependencies:
     "@oclif/errors" "^1.3.6"
     "@oclif/parser" "^3.8.16"
+    debug "^4.3.4"
+    globby "^11.1.0"
+    is-wsl "^2.1.1"
+    tslib "^2.6.1"
+
+"@oclif/config@1.18.17":
+  version "1.18.17"
+  resolved "https://registry.yarnpkg.com/@oclif/config/-/config-1.18.17.tgz#00aa4049da27edca8f06fc106832d9f0f38786a5"
+  integrity sha512-k77qyeUvjU8qAJ3XK3fr/QVAqsZO8QOBuESnfeM5HHtPNLSyfVcwiMM2zveSW5xRdLSG3MfV8QnLVkuyCL2ENg==
+  dependencies:
+    "@oclif/errors" "^1.3.6"
+    "@oclif/parser" "^3.8.17"
     debug "^4.3.4"
     globby "^11.1.0"
     is-wsl "^2.1.1"
